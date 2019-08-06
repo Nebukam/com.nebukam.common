@@ -11,6 +11,7 @@ namespace Nebukam.Common
         float3 pos { get; set; }
         float2 XY { get; }
         float2 XZ { get; }
+        float2 Pair(AxisPair pair);
     }
     
     public class Vertex : IVertex
@@ -31,6 +32,11 @@ namespace Nebukam.Common
 
         internal float2 m_XZ = float2(false);
         public float2 XZ { get { return m_XZ; } }
+
+        public float2 Pair(AxisPair pair)
+        {
+            return pair == AxisPair.XY ? m_XY : m_XZ;
+        }
 
         public Vertex()
         {

@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 namespace Nebukam.Common
 {
     
-    [Flags]
     public enum AxisPair
     {
         XY = 0,
