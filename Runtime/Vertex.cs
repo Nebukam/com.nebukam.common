@@ -16,11 +16,21 @@ namespace Nebukam.Common
     public class Vertex : IVertex
     {
 
-        public float3 m_pos = float3(false);
-        public float3 pos { get { return m_pos; } set { m_pos = value; } }
+        internal float3 m_pos = float3(false);
+        public float3 pos {
+            get { return m_pos; }
+            set {
+                m_pos = value;
+                m_XY = float2(value.x, value.y);
+                m_XZ = float2(value.x, value.z);
+            }
+        }
 
-        public float2 XY { get { return float2(m_pos.x, m_pos.y); } }
-        public float2 XZ { get { return float2(m_pos.x, m_pos.z); } }
+        internal float2 m_XY = float2(false);
+        public float2 XY { get { return m_XY; } }
+
+        internal float2 m_XZ = float2(false);
+        public float2 XZ { get { return m_XZ; } }
 
         public Vertex()
         {
@@ -28,22 +38,16 @@ namespace Nebukam.Common
         }
 
         public Vertex(float3 v3)
-            : this()
         {
             pos = v3;
         }
 
-        public Vertex(float vx, float vy, float vz)
-            : this( float3(vx, vy, vz) )
+        public Vertex(float x, float y, float z = 0f)
         {
-
+            pos = float3(x, y, z);
         }
         
-        public static implicit operator float3(Vertex p) { return p.pos; }
-        public static implicit operator Vertex(float3 p)
-        {
-            return new Vertex(p);
-        }
+        public static implicit operator float3(Vertex p) { return p.m_pos; }
 
     }
 

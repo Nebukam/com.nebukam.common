@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace Nebukam.Common
 {
-    
-    [Flags]
-    public enum AxisPair
+    public interface IPlanar
     {
-        XY = 0,
-        XZ = 1
+        AxisPair plane { get; set; }
     }
-
 }

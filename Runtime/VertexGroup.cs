@@ -107,7 +107,6 @@ namespace Nebukam.Common
         protected bool m_locked = false;
         public bool locked { get { return m_locked; } }
 
-        protected List<IVertex> m_lockedVertices = new List<IVertex>();
         protected List<IVertex> m_vertices = new List<IVertex>();
         public List<IVertex> vertices { get { return m_vertices; } }
 
@@ -213,6 +212,16 @@ namespace Nebukam.Common
         protected virtual void OnVertexRemoved(V v)
         {
 
+        }
+
+        /// <summary>
+        /// Offset all vertices
+        /// </summary>
+        /// <param name="offset"></param>
+        public void Offset(float3 offset)
+        {
+            for(int i = 0, count = m_vertices.Count; i < count; i++)
+                m_vertices[i].pos += offset;
         }
         
         #region Nearest vertex in group
