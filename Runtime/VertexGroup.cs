@@ -63,6 +63,8 @@ namespace Nebukam.Common
         /// <returns></returns>
         IVertex RemoveAt(int index);
 
+        void Clear();
+        void Offset(float3 offset);
 
         #region Nearest vertex in group
 
@@ -212,6 +214,19 @@ namespace Nebukam.Common
         protected virtual void OnVertexRemoved(V v)
         {
 
+        }
+
+        /// <summary>
+        /// Removes all vertices from the group.
+        /// </summary>
+        public virtual void Clear()
+        {            
+            int count = m_vertices.Count;
+            while (count != 0)
+            {
+                RemoveAt(count - 1);
+                count = m_vertices.Count;
+            }            
         }
 
         /// <summary>
