@@ -63,6 +63,11 @@ namespace Nebukam.Common
         /// <returns></returns>
         IVertex RemoveAt(int index);
 
+        /// <summary>
+        /// Inverse vertices's order
+        /// </summary>
+        void Reverse();
+
         void Clear();
         void Offset(float3 offset);
 
@@ -214,6 +219,14 @@ namespace Nebukam.Common
         protected virtual void OnVertexRemoved(V v)
         {
 
+        }
+
+        /// <summary>
+        /// Inverse vertices's order
+        /// </summary>
+        public void Reverse()
+        {
+            m_vertices.Reverse();
         }
 
         /// <summary>
