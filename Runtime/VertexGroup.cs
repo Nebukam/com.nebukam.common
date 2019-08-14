@@ -68,7 +68,12 @@ namespace Nebukam.Common
         /// </summary>
         void Reverse();
 
+        IVertex Shift();
+
+        IVertex Pop();
+
         void Clear();
+
         void Offset(float3 offset);
 
         #region Nearest vertex in group
@@ -227,6 +232,28 @@ namespace Nebukam.Common
         public void Reverse()
         {
             m_vertices.Reverse();
+        }
+
+        /// <summary>
+        /// Removes and return the first item in the group
+        /// </summary>
+        /// <returns></returns>
+        public IVertex Shift()
+        {
+            int count = m_vertices.Count;
+            if (count == 0) { return null; }
+            return RemoveAt(0);
+        }
+
+        /// <summary>
+        /// Removes and return the last item in the group
+        /// </summary>
+        /// <returns></returns>
+        public IVertex Pop()
+        {
+            int count = m_vertices.Count;
+            if(count == 0) { return null; }
+            return RemoveAt(count - 1);
         }
 
         /// <summary>
