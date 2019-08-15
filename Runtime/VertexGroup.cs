@@ -3,7 +3,7 @@ using UnityEngine;
 using Unity.Mathematics;
 using static Unity.Mathematics.math;
 
-namespace Nebukam.Common
+namespace Nebukam
 {
 
     public interface IVertexGroup
