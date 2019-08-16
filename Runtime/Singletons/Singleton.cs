@@ -18,62 +18,66 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Unity.Mathematics;
-using static Unity.Mathematics.math;
+using UnityEngine;
 
 namespace Nebukam
 {
 
-    public interface IVertex
+    internal interface ISingleton
     {
-        float3 pos { get; set; }
-        float2 XY { get; }
-        float2 XZ { get; }
-        float2 Pair(AxisPair pair);
+        void InternalInit();
     }
-    
-    public class Vertex : Pooling.PoolItem, IVertex
+
+    public abstract class Singleton<T> : ISingleton
+        where T : class, new()
     {
 
-        internal float3 m_pos = float3(false);
-        public float3 pos {
-            get { return m_pos; }
-            set {
-                m_pos = value;
-                m_XY = float2(value.x, value.y);
-                m_XZ = float2(value.x, value.z);
+        private static T m_instance = null;
+
+        public static T Get
+        {
+            get
+            {
+                if (m_instance == null)
+                {
+                    m_instance = new T();
+
+                    ISingleton i = m_instance as ISingleton;
+                    i.InternalInit();
+                }
+                return m_instance;
             }
         }
 
-        internal float2 m_XY = float2(false);
-        public float2 XY { get { return m_XY; } }
-
-        internal float2 m_XZ = float2(false);
-        public float2 XZ { get { return m_XZ; } }
-
-        public float2 Pair(AxisPair pair)
+        protected bool m_init = false;
+        void ISingleton.InternalInit()
         {
-            return pair == AxisPair.XY ? m_XY : m_XZ;
+            if (m_init) { return; }
+            Init();
+            m_init = true;
         }
 
-        public Vertex()
-        {
+        protected abstract void Init();
 
+        #region System.IDisposable
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposing) { return; }
+            if(m_instance == this)
+                m_instance = null;
         }
 
-        public Vertex(float3 v3)
+        public void Dispose()
         {
-            pos = v3;
+            // Dispose of unmanaged resources.
+            Dispose(true);
+            m_instance = null;
+            // Suppress finalization.
+            System.GC.SuppressFinalize(this);
         }
 
-        public Vertex(float x, float y, float z = 0f)
-        {
-            pos = float3(x, y, z);
-        }
-        
-        public static implicit operator float3(Vertex p) { return p.m_pos; }
+        #endregion
 
     }
-
-
 }
