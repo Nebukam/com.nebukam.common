@@ -25,7 +25,7 @@ namespace Nebukam.Pooling
 
     public interface IPoolItem
     {
-        void Return();
+        void Release();
     }
 
     internal interface IPoolItemEx
@@ -36,17 +36,17 @@ namespace Nebukam.Pooling
     internal interface IPoolNode : IPoolItem
     {
         IPoolNode __prevNode { get; set; }
-        bool __returned { get; set; }
+        bool __released { get; set; }
     }
     
     public abstract class PoolItem : IPoolNode
     {
 
-        internal List<Pool.OnItemReturned> __onReturn = null;
+        internal List<Pool.OnItemReturned> __onRelease = null;
         IPoolNode IPoolNode.__prevNode { get; set; } = null;
-        bool IPoolNode.__returned { get; set; } = false;
+        bool IPoolNode.__released { get; set; } = false;
 
-        public virtual void Return()
+        public virtual void Release()
         {
             Pool.ReturnNode(this);
         }
@@ -54,14 +54,14 @@ namespace Nebukam.Pooling
         public static IPoolItem operator +(PoolItem item, Pool.OnItemReturned returnDelegate)
         {
 
-            if ((item as IPoolNode).__returned) { return item; }
+            if ((item as IPoolNode).__released) { return item; }
 
-            List<Pool.OnItemReturned> list = item.__onReturn;
+            List<Pool.OnItemReturned> list = item.__onRelease;
 
             if (list == null)
             {
                 list = new List<Pool.OnItemReturned>();
-                item.__onReturn = list;
+                item.__onRelease = list;
             }
             
             if(!list.Contains(returnDelegate))
@@ -74,9 +74,9 @@ namespace Nebukam.Pooling
         public static IPoolItem operator -(PoolItem item, Pool.OnItemReturned returnDelegate)
         {
 
-            if ((item as IPoolNode).__returned) { return item; }
+            if ((item as IPoolNode).__released) { return item; }
 
-            List<Pool.OnItemReturned> list = item.__onReturn;
+            List<Pool.OnItemReturned> list = item.__onRelease;
 
             if (list == null)
                 return item;
@@ -91,14 +91,14 @@ namespace Nebukam.Pooling
 
         public static implicit operator bool(PoolItem item)
         {
-            return !(item as IPoolNode).__returned;
+            return !(item as IPoolNode).__released;
         }
 
     }
     
     public abstract class PoolItemEx : PoolItem, IPoolItemEx
     {
-        public override void Return() { if (Pool.ReturnNode(this)) { CleanUp(); } }
+        public override void Release() { if (Pool.ReturnNode(this)) { CleanUp(); } }
         public abstract void Init();
         protected abstract void CleanUp();
     }

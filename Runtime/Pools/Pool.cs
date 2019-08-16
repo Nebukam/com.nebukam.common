@@ -68,6 +68,14 @@ namespace Nebukam.Pooling
             return GetPool<T>(typeof(T)).Rent();
         }
 
+        public static T Rent<T>(ref T item)
+            where T : PoolItem, new()
+        {
+            if(item != null) { return item; }
+            item = GetPool<T>(typeof(T)).Rent();
+            return item;
+        }
+
         public static void Preload<T>(int count)
             where T : PoolItem, new()
         {
@@ -159,7 +167,7 @@ namespace Nebukam.Pooling
                 item = m_tail;
                 m_tail = m_tail.__prevNode as T;
                 item.__prevNode = null;
-                item.__returned = false;
+                item.__released = false;
                 m_poolSize--;
 
                 ex = item as IPoolItemEx;
@@ -185,10 +193,10 @@ namespace Nebukam.Pooling
 
         internal bool Return(T node)
         {
-            if (node.__returned) { return false; }
-            node.__returned = true;
+            if (node.__released) { return false; }
+            node.__released = true;
 
-            List<Pool.OnItemReturned> list = node.__onReturn;
+            List<Pool.OnItemReturned> list = node.__onRelease;
             if(list != null)
             {
                 for(int i = 0, count = list.Count; i < count; i++)

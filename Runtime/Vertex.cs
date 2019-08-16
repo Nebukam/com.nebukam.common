@@ -24,7 +24,7 @@ using static Unity.Mathematics.math;
 namespace Nebukam
 {
 
-    public interface IVertex
+    public interface IVertex : Pooling.IPoolItem
     {
         float3 pos { get; set; }
         float2 XY { get; }

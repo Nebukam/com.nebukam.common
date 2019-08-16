@@ -73,7 +73,7 @@ namespace Nebukam
         /// <param name="v"></param>
         /// <param name="keepProxies"></param>
         /// <returns></returns>
-        IVertex Remove(IVertex v);
+        IVertex Remove(IVertex v, bool release = false);
 
         /// <summary>
         /// Removes the vertex at the given index from the group .
@@ -81,18 +81,18 @@ namespace Nebukam
         /// <param name="index"></param>
         /// <param name="keepProxies"></param>
         /// <returns></returns>
-        IVertex RemoveAt(int index);
+        IVertex RemoveAt(int index, bool release = false);
 
         /// <summary>
         /// Inverse vertices's order
         /// </summary>
         void Reverse();
 
-        IVertex Shift();
+        IVertex Shift(bool release = false);
 
-        IVertex Pop();
+        IVertex Pop(bool release = false);
 
-        void Clear();
+        void Clear(bool release = false);
 
         void Offset(float3 offset);
 
@@ -131,10 +131,9 @@ namespace Nebukam
 
     }
 
-    public class VertexGroup<V> : IVertexGroup
+    public class VertexGroup<V> : Pooling.PoolItem, IVertexGroup
         where V : Vertex, IVertex, new()
     {
-
 
         protected bool m_locked = false;
         public bool locked { get { return m_locked; } }
@@ -169,7 +168,7 @@ namespace Nebukam
         /// <returns></returns>
         public virtual IVertex Add(float3 v)
         {
-            IVertex vert = new V();
+            IVertex vert = Pooling.Pool.Rent<V>();
             vert.pos = v;
             return Add(vert);
         }
@@ -189,9 +188,22 @@ namespace Nebukam
             if (vertex == null)
                 return null;
 
-            m_vertices.Insert(index, vertex);
-            m_vertices.RemoveAt(m_vertices.Count-1);
-            return vertex;
+            int currentIndex = m_vertices.IndexOf(v);
+            if(currentIndex == index) { return v; }
+            if (currentIndex != -1)
+            {
+                m_vertices.RemoveAt(currentIndex);
+                if(currentIndex < index)
+                    m_vertices.Insert(index-1, v);
+                else
+                    m_vertices.Insert(index, v);
+            }
+            else
+            {
+                m_vertices.Insert(index, v);
+                OnVertexAdded(v as V);
+            }
+            return v;
         }
 
         /// <summary>
@@ -202,7 +214,7 @@ namespace Nebukam
         /// <returns></returns>
         public virtual IVertex Insert(int index, float3 v)
         {
-            IVertex vert = new V();
+            IVertex vert = Pooling.Pool.Rent<V>();
             vert.pos = v;
 
             m_vertices.Insert(index, vert);
@@ -216,7 +228,7 @@ namespace Nebukam
         /// <param name="v"></param>
         /// <param name="keepProxies"></param>
         /// <returns></returns>
-        public IVertex Remove(IVertex v)
+        public IVertex Remove(IVertex v, bool release = false)
         {
             int index = m_vertices.IndexOf(v);
             return RemoveAt(index);
@@ -228,11 +240,12 @@ namespace Nebukam
         /// <param name="index"></param>
         /// <param name="keepProxies"></param>
         /// <returns></returns>
-        public IVertex RemoveAt(int index)
+        public IVertex RemoveAt(int index, bool release = false)
         {
             IVertex result = m_vertices[index];
             m_vertices.RemoveAt(index);
             OnVertexRemoved(result as V);
+            if (release) { result.Release(); }
             return result;
         }
 
@@ -258,33 +271,33 @@ namespace Nebukam
         /// Removes and return the first item in the group
         /// </summary>
         /// <returns></returns>
-        public IVertex Shift()
+        public IVertex Shift(bool release = false)
         {
             int count = m_vertices.Count;
             if (count == 0) { return null; }
-            return RemoveAt(0);
+            return RemoveAt(0, release);
         }
 
         /// <summary>
         /// Removes and return the last item in the group
         /// </summary>
         /// <returns></returns>
-        public IVertex Pop()
+        public IVertex Pop(bool release = false)
         {
             int count = m_vertices.Count;
             if(count == 0) { return null; }
-            return RemoveAt(count - 1);
+            return RemoveAt(count - 1, release);
         }
 
         /// <summary>
         /// Removes all vertices from the group.
         /// </summary>
-        public virtual void Clear()
+        public virtual void Clear(bool release = false)
         {            
             int count = m_vertices.Count;
             while (count != 0)
             {
-                RemoveAt(count - 1);
+                RemoveAt(count - 1, release);
                 count = m_vertices.Count;
             }            
         }
