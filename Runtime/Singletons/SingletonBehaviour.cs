@@ -26,6 +26,8 @@ namespace Nebukam
         where T : Component, new()
     {
 
+        public static void StaticInitialize() { T i = Get; }
+
         private static T m_instance = null;
         private static GameObject m_instanceGameObject = null;
         

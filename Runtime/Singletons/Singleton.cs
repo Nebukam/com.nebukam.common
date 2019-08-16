@@ -32,6 +32,8 @@ namespace Nebukam
         where T : class, new()
     {
 
+        public static void StaticInitialize() { T i = Get; }
+
         private static T m_instance = null;
 
         public static T Get
