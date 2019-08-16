@@ -30,7 +30,7 @@ namespace Nebukam.Pooling
     public static class Pool
     {
 
-        public delegate void OnItemReturned(IPoolItem item);
+        public delegate void OnItemReleased(IPoolItem item);
         private static Dictionary<Type, IPool> m_pools = new Dictionary<Type, IPool>();
 
         internal static Pool<T> GetPool<T>(Type type)
@@ -117,6 +117,44 @@ namespace Nebukam.Pooling
 
 #endif
 
+        public static void OnRelease(this PoolItem @this, Pool.OnItemReleased returnDelegate)
+        {
+
+            if ((@this as IPoolNode).__released) { return; }
+
+            List<Pool.OnItemReleased> list = @this.__onRelease;
+
+            if (list == null)
+            {
+                list = new List<Pool.OnItemReleased>();
+                @this.__onRelease = list;
+            }
+
+            if (!list.Contains(returnDelegate))
+                list.Add(returnDelegate);
+
+            return;
+
+        }
+
+        public static void OffRelease(this PoolItem @this, Pool.OnItemReleased returnDelegate)
+        {
+
+            if ((@this as IPoolNode).__released) { return; }
+
+            List<Pool.OnItemReleased> list = @this.__onRelease;
+
+            if (list == null)
+                return;
+
+            int index = list.IndexOf(returnDelegate);
+            if (index != -1)
+                list.RemoveAt(index);
+
+            return;
+
+        }
+
     }
 
     internal interface IPool
@@ -196,7 +234,7 @@ namespace Nebukam.Pooling
             if (node.__released) { return false; }
             node.__released = true;
 
-            List<Pool.OnItemReturned> list = node.__onRelease;
+            List<Pool.OnItemReleased> list = node.__onRelease;
             if(list != null)
             {
                 for(int i = 0, count = list.Count; i < count; i++)

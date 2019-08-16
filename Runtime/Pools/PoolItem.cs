@@ -42,7 +42,7 @@ namespace Nebukam.Pooling
     public abstract class PoolItem : IPoolNode
     {
 
-        internal List<Pool.OnItemReturned> __onRelease = null;
+        internal List<Pool.OnItemReleased> __onRelease = null;
         IPoolNode IPoolNode.__prevNode { get; set; } = null;
         bool IPoolNode.__released { get; set; } = false;
 
@@ -50,45 +50,7 @@ namespace Nebukam.Pooling
         {
             Pool.ReturnNode(this);
         }
-
-        public static IPoolItem operator +(PoolItem item, Pool.OnItemReturned returnDelegate)
-        {
-
-            if ((item as IPoolNode).__released) { return item; }
-
-            List<Pool.OnItemReturned> list = item.__onRelease;
-
-            if (list == null)
-            {
-                list = new List<Pool.OnItemReturned>();
-                item.__onRelease = list;
-            }
-            
-            if(!list.Contains(returnDelegate))
-                list.Add(returnDelegate);
-
-            return item;
-
-        }
-
-        public static IPoolItem operator -(PoolItem item, Pool.OnItemReturned returnDelegate)
-        {
-
-            if ((item as IPoolNode).__released) { return item; }
-
-            List<Pool.OnItemReturned> list = item.__onRelease;
-
-            if (list == null)
-                return item;
-
-            int index = list.IndexOf(returnDelegate);
-            if (index != -1)
-                list.RemoveAt(index);
-
-            return item;
-
-        }
-
+        
         public static implicit operator bool(PoolItem item)
         {
             return !(item as IPoolNode).__released;

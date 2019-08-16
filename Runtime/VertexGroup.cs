@@ -18,6 +18,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using Nebukam.Pooling;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Mathematics;
@@ -135,6 +136,8 @@ namespace Nebukam
         where V : Vertex, IVertex, new()
     {
 
+        protected Pooling.Pool.OnItemReleased m_onVertexReleasedCached;
+
         protected bool m_locked = false;
         public bool locked { get { return m_locked; } }
 
@@ -145,7 +148,12 @@ namespace Nebukam
         
         public IVertex this[int index] { get { return m_vertices[index]; } }
         public int this[IVertex v] { get { return m_vertices.IndexOf(v); } }
-              
+        
+        public VertexGroup()
+        {
+            m_onVertexReleasedCached = OnVertexReleased;
+        }
+
 
         /// <summary>
         /// Adds a vertex in the group.
@@ -251,12 +259,17 @@ namespace Nebukam
 
         protected virtual void OnVertexAdded(V v)
         {
-
+            //v.OnRelease(m_onVertexReleasedCached);
         }
 
         protected virtual void OnVertexRemoved(V v)
         {
+            //v.OffRelease(m_onVertexReleasedCached);
+        }
 
+        protected virtual void OnVertexReleased(IPoolItem vertex)
+        {
+            Remove(vertex as IVertex);
         }
 
         /// <summary>
