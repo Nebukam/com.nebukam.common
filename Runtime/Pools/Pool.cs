@@ -117,7 +117,7 @@ namespace Nebukam.Pooling
 
 #endif
 
-        public static void OnRelease(this PoolItem @this, Pool.OnItemReleased returnDelegate)
+        public static void onRelease(this PoolItem @this, Pool.OnItemReleased returnDelegate)
         {
 
             if ((@this as IPoolNode).__released) { return; }
@@ -137,7 +137,7 @@ namespace Nebukam.Pooling
 
         }
 
-        public static void OffRelease(this PoolItem @this, Pool.OnItemReleased returnDelegate)
+        public static void offRelease(this PoolItem @this, Pool.OnItemReleased returnDelegate)
         {
 
             if ((@this as IPoolNode).__released) { return; }
