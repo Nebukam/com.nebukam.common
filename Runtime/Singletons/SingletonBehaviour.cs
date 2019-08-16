@@ -55,8 +55,13 @@ namespace Nebukam
         protected abstract void Init();
 
         private void Update(){ Tick(Time.deltaTime); }
-
         protected abstract void Tick(float delta);
+
+        private void LateUpdate() { LateTick(Time.deltaTime); }
+        protected abstract void LateTick(float delta);
+
+        private void FixedUpdate() { FixedTick(); }
+        protected abstract void FixedTick();
 
         private void OnDestroy() { Dispose(); }
 
