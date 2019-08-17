@@ -67,11 +67,11 @@ namespace Nebukam.Pooling
         {
             return GetPool<T>(typeof(T)).Rent();
         }
-
+        
         public static T Rent<T>(ref T item)
             where T : PoolItem, new()
         {
-            if(item != null) { return item; }
+            if(item != null) { if (!(item as IPoolNode).__released) { return item; } }
             item = GetPool<T>(typeof(T)).Rent();
             return item;
         }

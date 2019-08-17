@@ -36,7 +36,7 @@ namespace Nebukam
                 if(m_instance == null)
                 {
                     m_instanceGameObject = new GameObject();
-                    m_instanceGameObject.name = typeof(T).Name;
+                    m_instanceGameObject.name = typeof(T).FullName;
                     m_instance = m_instanceGameObject.AddComponent<T>();
 
                     ISingleton i = m_instance as ISingleton;
