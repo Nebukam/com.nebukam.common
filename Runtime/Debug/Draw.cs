@@ -1,7 +1,7 @@
 ﻿using System;
+using UnityEngine;
 using Unity.Mathematics;
 using static Unity.Mathematics.math;
-using UnityEngine;
 
 namespace Nebukam.Utils
 {
