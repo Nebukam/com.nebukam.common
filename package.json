@@ -2,7 +2,7 @@
   "name": "com.nebukam.common",
   "version": "0.0.1",
   "displayName": "N:Common",
-  "description": "A set of commonly used resources & object in N:Libraries. This package primary purpose is to allow some package to have dependencies over basic types, without the need to for big libs & packages initially attached to them.",
+  "description": "A set of commonly used resources & object in N:Libraries. This package primary purpose is to allow some package to have dependencies over basic types, without the need to for big libs & packages.",
   "unity": "2019.1",
   "unityRelease": "10f1",
   "keywords": [
@@ -15,7 +15,7 @@
     "url": "https://github.com/Nebukam/com.nebukam.common.git"
   },
   "dependencies": {
-  "com.unity.mathematics": "1.1.0",
-	"com.unity.collections": "0.0.9"
+	"com.unity.collections": "0.0.9",
+	"com.unity.mathematics": "1.1.0"
   }
 }
