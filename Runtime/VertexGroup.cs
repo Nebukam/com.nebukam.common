@@ -132,7 +132,7 @@ namespace Nebukam
 
     }
 
-    public class VertexGroup<V> : Pooling.PoolItem, IVertexGroup
+    public class VertexGroup<V> : Pooling.PoolItemEx, IVertexGroup
         where V : Vertex, IVertex, new()
     {
 
@@ -324,7 +324,14 @@ namespace Nebukam
             for(int i = 0, count = m_vertices.Count; i < count; i++)
                 m_vertices[i].pos += offset;
         }
-        
+
+        #region PoolItemEx
+
+        public override void Init() { }
+        protected override void CleanUp() { }
+
+        #endregion
+
         #region Nearest vertex in group
 
         /// <summary>
