@@ -132,7 +132,7 @@ namespace Nebukam
 
     }
 
-    public class VertexGroup<V> : Pooling.PoolItemEx, IVertexGroup
+    public class VertexGroup<V> : Pooling.PoolItem, IVertexGroup
         where V : Vertex, IVertex, new()
     {
 
@@ -306,7 +306,7 @@ namespace Nebukam
         /// Removes all vertices from the group.
         /// </summary>
         public virtual void Clear(bool release = false)
-        {            
+        {      
             int count = m_vertices.Count;
             while (count != 0)
             {
@@ -325,10 +325,12 @@ namespace Nebukam
                 m_vertices[i].pos += offset;
         }
 
-        #region PoolItemEx
+        #region PoolItem
 
-        public override void Init() { }
-        protected override void CleanUp() { }
+        protected virtual void CleanUp()
+        {
+            Clear(false);
+        }
 
         #endregion
 
@@ -421,5 +423,4 @@ namespace Nebukam
         
     }
     
-
 }

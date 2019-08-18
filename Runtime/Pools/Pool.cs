@@ -198,7 +198,7 @@ namespace Nebukam.Pooling
         {
 
             T item;
-            IPoolItemEx ex;
+            IRequireInit init;
 
             if (m_tail != null)
             {
@@ -208,15 +208,15 @@ namespace Nebukam.Pooling
                 item.__released = false;
                 m_poolSize--;
 
-                ex = item as IPoolItemEx;
-                if (ex != null) { ex.Init(); }
+                init = item as IRequireInit;
+                if (init != null) { init.Init(); }
 
                 return item;
             }
 
             item = new T();
-            ex = item as IPoolItemEx;
-            if (ex != null) { ex.Init(); }
+            init = item as IRequireInit;
+            if (init != null) { init.Init(); }
 
             m_newTicker++;
             return item;
@@ -247,6 +247,10 @@ namespace Nebukam.Pooling
                 node.__prevNode = m_tail;
 
             m_tail = node;
+
+            IRequireCleanUp clean = m_tail as IRequireCleanUp;
+            if(clean != null) { clean.CleanUp(); }
+
             m_poolSize++;
             return true;
         }

@@ -28,7 +28,12 @@ namespace Nebukam.Pooling
         void Release();
     }
 
-    internal interface IPoolItemEx
+    public interface IRequireCleanUp : IPoolItem
+    {
+        void CleanUp();
+    }
+
+    public interface IRequireInit : IPoolItem
     {
         void Init();
     }
@@ -57,13 +62,5 @@ namespace Nebukam.Pooling
         }
 
     }
-    
-    public abstract class PoolItemEx : PoolItem, IPoolItemEx
-    {
-        public override void Release() { if (Pool.ReturnNode(this)) { CleanUp(); } }
-        public abstract void Init();
-        protected abstract void CleanUp();
-    }
-
 
 }
