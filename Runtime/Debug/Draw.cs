@@ -1,6 +1,6 @@
 ﻿using System;
-using UnityEngine;
 using Unity.Mathematics;
+using UnityEngine;
 using static Unity.Mathematics.math;
 
 namespace Nebukam.Utils
@@ -72,7 +72,7 @@ namespace Nebukam.Utils
 
             float3 from, to;
 
-            float angleIncrease = (float)(Math.PI * 2) / (float)samples;
+            float angleIncrease = (float)(Math.PI * 2) / samples;
             from = to = float3(center.x + radius * (float)Math.Cos(0.0f), center.y, center.z + radius * (float)Math.Sin(0.0f));
 
             for (int i = 0; i < samples; i++)
@@ -111,7 +111,7 @@ namespace Nebukam.Utils
 
             float3 from, to;
 
-            float angleIncrease = (float)(Math.PI * 2) / (float)samples;
+            float angleIncrease = (float)(Math.PI * 2) / samples;
             from = to = float3(center.x + radius * Mathf.Cos(0.0f), center.y + radius * Mathf.Sin(0.0f), center.z);
 
             for (int i = 0; i < samples; i++)

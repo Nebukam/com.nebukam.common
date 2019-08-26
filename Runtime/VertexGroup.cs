@@ -20,7 +20,6 @@
 
 using Nebukam.Pooling;
 using System.Collections.Generic;
-using UnityEngine;
 using Unity.Mathematics;
 using static Unity.Mathematics.math;
 
@@ -29,12 +28,12 @@ namespace Nebukam
 
     public interface IVertexGroup
     {
-        
+
         List<IVertex> vertices { get; }
         int Count { get; }
         IVertex this[int index] { get; }
         int this[IVertex v] { get; }
-        
+
         /// <summary>
         /// Adds a vertex in the group.
         /// </summary>
@@ -49,7 +48,7 @@ namespace Nebukam
         /// <param name="v"></param>
         /// <returns></returns>
         IVertex Add(float3 v);
-        
+
         /// <summary>
         /// Inserts a vertex at a given index in the group.
         /// </summary>
@@ -145,10 +144,10 @@ namespace Nebukam
         public List<IVertex> vertices { get { return m_vertices; } }
 
         public int Count { get { return m_vertices.Count; } }
-        
+
         public IVertex this[int index] { get { return m_vertices[index]; } }
         public int this[IVertex v] { get { return m_vertices.IndexOf(v); } }
-        
+
         public VertexGroup()
         {
             m_onVertexReleasedCached = OnVertexReleased;
@@ -180,7 +179,7 @@ namespace Nebukam
             vert.pos = v;
             return Add(vert);
         }
-        
+
         /// <summary>
         /// Inserts a vertex at a given index in the group.
         /// </summary>
@@ -197,12 +196,12 @@ namespace Nebukam
                 return null;
 
             int currentIndex = m_vertices.IndexOf(v);
-            if(currentIndex == index) { return v; }
+            if (currentIndex == index) { return v; }
             if (currentIndex != -1)
             {
                 m_vertices.RemoveAt(currentIndex);
-                if(currentIndex < index)
-                    m_vertices.Insert(index-1, v);
+                if (currentIndex < index)
+                    m_vertices.Insert(index - 1, v);
                 else
                     m_vertices.Insert(index, v);
             }
@@ -298,7 +297,7 @@ namespace Nebukam
         public IVertex Pop(bool release = false)
         {
             int count = m_vertices.Count;
-            if(count == 0) { return null; }
+            if (count == 0) { return null; }
             return RemoveAt(count - 1, release);
         }
 
@@ -306,13 +305,13 @@ namespace Nebukam
         /// Removes all vertices from the group.
         /// </summary>
         public virtual void Clear(bool release = false)
-        {      
+        {
             int count = m_vertices.Count;
             while (count != 0)
             {
                 RemoveAt(count - 1, release);
                 count = m_vertices.Count;
-            }            
+            }
         }
 
         /// <summary>
@@ -321,7 +320,7 @@ namespace Nebukam
         /// <param name="offset"></param>
         public void Offset(float3 offset)
         {
-            for(int i = 0, count = m_vertices.Count; i < count; i++)
+            for (int i = 0, count = m_vertices.Count; i < count; i++)
                 m_vertices[i].pos += offset;
         }
 
@@ -420,7 +419,7 @@ namespace Nebukam
 
 
         #endregion
-        
+
     }
-    
+
 }

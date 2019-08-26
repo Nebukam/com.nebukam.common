@@ -39,7 +39,7 @@ namespace Nebukam
         public static void offQuit(Callback func) { if (quitting) { return; } OFF(func, m_OnQuit); }
 
         private static void ON(Callback func, List<Callback> list) { if (!list.Contains(func)) { list.Add(func); } }
-        private static void OFF(Callback func, List<Callback> list) {  int i = list.IndexOf(func); if (i != -1) { list.RemoveAt(i); } }
+        private static void OFF(Callback func, List<Callback> list) { int i = list.IndexOf(func); if (i != -1) { list.RemoveAt(i); } }
 
         private void Update() { Call(m_OnUpdate); }
         private void LateUpdate() { Call(m_OnLateUpdate); }

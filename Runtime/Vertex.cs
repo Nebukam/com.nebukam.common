@@ -31,14 +31,16 @@ namespace Nebukam
         float2 XZ { get; }
         float2 Pair(AxisPair pair);
     }
-    
+
     public class Vertex : Pooling.PoolItem, IVertex
     {
 
         internal float3 m_pos = float3(false);
-        public float3 pos {
+        public float3 pos
+        {
             get { return m_pos; }
-            set {
+            set
+            {
                 m_pos = value;
                 m_XY = float2(value.x, value.y);
                 m_XZ = float2(value.x, value.z);
@@ -70,7 +72,7 @@ namespace Nebukam
         {
             pos = float3(x, y, z);
         }
-        
+
         public static implicit operator float3(Vertex p) { return p.m_pos; }
 
     }

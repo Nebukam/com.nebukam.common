@@ -43,7 +43,7 @@ namespace Nebukam.Pooling
         IPoolNode __prevNode { get; set; }
         bool __released { get; set; }
     }
-    
+
     public abstract class PoolItem : IPoolNode
     {
 
@@ -55,7 +55,7 @@ namespace Nebukam.Pooling
         {
             Pool.ReturnNode(this);
         }
-        
+
         public static implicit operator bool(PoolItem item)
         {
             return !(item as IPoolNode).__released;

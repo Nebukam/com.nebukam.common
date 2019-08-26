@@ -7,10 +7,10 @@ namespace Nebukam
 {
     public static class MathsExtensions
     {
-        
-        public static float Det(this Vector2 @this, Vector2 other){ return @this.x * other.y - @this.y * other.x; }
+
+        public static float Det(this Vector2 @this, Vector2 other) { return @this.x * other.y - @this.y * other.x; }
         public static float Det(this float2 @this, float2 other) { return @this.x * other.y - @this.y * other.x; }
-        
+
         /// <summary>
         /// Lerp shorthand.
         /// </summary>
@@ -54,7 +54,7 @@ namespace Nebukam
         /// <returns></returns>
         public static bool IsBetween(this Vector2 @this, Vector2 a, Vector2 b)
         {
-            
+
             Vector2 ab = new Vector2(b.x - a.x, b.y - a.y);//Entire line segment
             Vector2 ac = new Vector2(@this.x - a.x, @this.y - a.y);//The intersection and the first point
 
@@ -65,7 +65,7 @@ namespace Nebukam
 
             float abm = ab.x * ab.x + ab.y * ab.y;
             float acm = ac.x * ac.x + ac.y * ac.y;
-            
+
             //If the length of the vector between the intersection and the first point is smaller than the entire line
             return (abm >= acm);
         }
@@ -97,7 +97,7 @@ namespace Nebukam
         /// <returns></returns>
         public static bool IsBetween(this Vector3 @this, Vector3 a, Vector3 b)
         {
-            
+
             Vector3 ab = new Vector3(b.x - a.x, b.y - a.y, b.z - a.z); //Entire line segment
             Vector3 ac = new Vector3(@this.x - a.x, @this.y - a.y, @this.z - a.z);//The intersection and the first point
 

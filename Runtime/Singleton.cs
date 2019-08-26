@@ -18,7 +18,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using UnityEngine;
 
 namespace Nebukam
 {
@@ -82,7 +81,7 @@ namespace Nebukam
         {
 
             if (!disposing) { return; }
-            
+
             Static.offUpdate(Update);
             Static.offLateUpdate(LateUpdate);
             Static.offFixedUpdate(FixedUpdate);

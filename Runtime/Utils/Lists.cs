@@ -101,7 +101,7 @@ namespace Nebukam.Utils
 
             while (listCopy.Count != 0)
             {
-                int rIndex = (int)Math.Floor(UnityEngine.Random.value * (float)listCopy.Count);
+                int rIndex = (int)Math.Floor(UnityEngine.Random.value * listCopy.Count);
                 list[i] = listCopy[rIndex];
                 listCopy.RemoveAt(rIndex);
                 i++;
@@ -147,7 +147,7 @@ namespace Nebukam.Utils
         }
 
         #endregion
-        
+
     }
 
 }

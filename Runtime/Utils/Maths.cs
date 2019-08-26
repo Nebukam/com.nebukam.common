@@ -1,6 +1,6 @@
 ﻿using System;
-using UnityEngine;
 using Unity.Mathematics;
+using UnityEngine;
 using static Unity.Mathematics.math;
 
 namespace Nebukam.Utils
@@ -15,7 +15,7 @@ namespace Nebukam.Utils
         public const float TAU = (float)Math.PI * 2.0f;
 
         #endregion
-        
+
         #region Random
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace Nebukam.Utils
 
             return diff / scale;
         }
-        
+
         /// <summary>
         /// Convert a value in radian into degree
         /// </summary>
@@ -89,7 +89,7 @@ namespace Nebukam.Utils
 
             return value;
         }
-        
+
         /// <summary>
         /// Return a scale ratio so a given content size fits in a given container size.
         /// </summary>
@@ -107,11 +107,11 @@ namespace Nebukam.Utils
         }
 
         #endregion
-        
+
         #region Vector
 
         #region normals
-        
+
         /// <summary>
         /// Return the Normal vector of an A, B, C triad
         /// </summary>
@@ -123,7 +123,7 @@ namespace Nebukam.Utils
         {
             return normalize(cross((B - A), (A - C)));
         }
-        
+
         /// <summary>
         /// Normal | C = B + Vector3.up
         /// </summary>
@@ -132,9 +132,9 @@ namespace Nebukam.Utils
         /// <returns></returns>
         public static float3 Perp(float3 A, float3 B)
         {
-            return Normal(A, B, B + float3(0f,1f,0f));
+            return Normal(A, B, B + float3(0f, 1f, 0f));
         }
-        
+
         /// <summary>
         /// Normal | C = B+dir
         /// </summary>
@@ -148,7 +148,7 @@ namespace Nebukam.Utils
         }
 
         #endregion
-        
+
         /// <summary>
         /// Multiply each vector's component individually, returning the resulting vector.
         /// </summary>
@@ -156,7 +156,7 @@ namespace Nebukam.Utils
         /// <param name="b"></param>
         /// <returns></returns>
         public static float3 Mult(float3 a, float3 b) { return new float3(a.x * b.x, a.y * b.y, a.z * b.z); }
-        
+
         #region rotations
 
         /// <summary>
@@ -216,7 +216,7 @@ namespace Nebukam.Utils
 
         #endregion
 
-        
+
         /// <summary>
         /// Computes the determinant of a two-dimensional square matrix 
         /// with rows consisting of the specified two-dimensional vectors.
@@ -238,7 +238,7 @@ namespace Nebukam.Utils
         {
             return a.x * b.x + a.y * b.y + a.z * b.z;
         }
-        
+
         /// <summary>
         /// Computes the squared length of a specified two-dimensional vector.
         /// </summary>
@@ -248,7 +248,7 @@ namespace Nebukam.Utils
         {
             return v.x * v.x + v.y * v.y;
         }
-        
+
         /// <summary>
         /// Computes the squared length of a specified two-dimensional vector.
         /// </summary>
@@ -258,7 +258,7 @@ namespace Nebukam.Utils
         {
             return v.x * v.x + v.y * v.y + v.z * v.z;
         }
-        
+
         /// <summary>
         /// >Computes the length of a specified two-dimensional vector.
         /// </summary>
@@ -295,7 +295,7 @@ namespace Nebukam.Utils
         #endregion
 
         #region Line
-        
+
         /// <summary>
         /// Computes the squared distance from a line segment with the specified endpoints to a specified point.
         /// </summary>
@@ -353,7 +353,7 @@ namespace Nebukam.Utils
             //If the length of the vector between the intersection and the first point is smaller than the entire line
             return (abm >= acm);
         }
-        
+
         /// <summary>
         /// Is a point c between a and b?
         /// </summary>
@@ -438,7 +438,7 @@ namespace Nebukam.Utils
         #endregion
 
         #region Circle
-        
+
         public static bool TryGetCircleIntersection(
             float2 centerA,
             float radiusA,
@@ -492,7 +492,7 @@ namespace Nebukam.Utils
         #endregion
 
         #region Triangle
-        
+
         public static bool TriangleContainsXY(float3 pt, float3 a, float3 b, float3 c)
         {
             float A = 1 / 2 * (-b.y * c.x + a.y * (-b.x + c.x) + a.x * (b.y - c.y) + b.x * c.y);
@@ -512,7 +512,7 @@ namespace Nebukam.Utils
 
             return s > 0 && t > 0 && (s + t) < 2 * A * sign;
         }
-        
+
         public static float3 CircumSphere(float3 A, float3 B, float3 C)
         {
             float3 ac = C - A;
@@ -652,6 +652,6 @@ namespace Nebukam.Utils
         }
 
         #endregion
-        
+
     }
 }

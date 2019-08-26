@@ -67,11 +67,11 @@ namespace Nebukam.Pooling
         {
             return GetPool<T>(typeof(T)).Rent();
         }
-        
+
         public static T Rent<T>(ref T item)
             where T : PoolItem, new()
         {
-            if(item != null) { if (!(item as IPoolNode).__released) { return item; } }
+            if (item != null) { if (!(item as IPoolNode).__released) { return item; } }
             item = GetPool<T>(typeof(T)).Rent();
             return item;
         }
@@ -173,20 +173,20 @@ namespace Nebukam.Pooling
 
         internal T m_tail = null;
 
-        int IPool.poolSize { get{ return m_poolSize; } }
+        int IPool.poolSize { get { return m_poolSize; } }
         int IPool.newTicker { get { return m_newTicker; } }
 
         internal void Preload(int count)
         {
 
-            if(m_tail == null)
+            if (m_tail == null)
             {
                 m_tail = new T();
                 m_poolSize++;
             }
 
             T preloaded;
-            while(m_poolSize != count)
+            while (m_poolSize != count)
             {
                 preloaded = new T();
                 preloaded.__prevNode = m_tail;
@@ -225,7 +225,7 @@ namespace Nebukam.Pooling
         bool IPool.Return(IPoolNode node)
         {
             T nAsT = node as T;
-            if(nAsT == null) { return false; }
+            if (nAsT == null) { return false; }
             return Return(nAsT);
         }
 
@@ -235,11 +235,11 @@ namespace Nebukam.Pooling
             node.__released = true;
 
             List<Pool.OnItemReleased> list = node.__onRelease;
-            if(list != null)
+            if (list != null)
             {
-                for(int i = 0, count = list.Count; i < count; i++)
+                for (int i = 0, count = list.Count; i < count; i++)
                     list[i](node);
-                
+
                 list.Clear();
             }
 
@@ -249,7 +249,7 @@ namespace Nebukam.Pooling
             m_tail = node;
 
             IRequireCleanUp clean = m_tail as IRequireCleanUp;
-            if(clean != null) { clean.CleanUp(); }
+            if (clean != null) { clean.CleanUp(); }
 
             m_poolSize++;
             return true;

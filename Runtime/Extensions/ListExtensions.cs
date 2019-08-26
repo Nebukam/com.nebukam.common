@@ -64,7 +64,7 @@ namespace Nebukam
         {
             Lists.Randomize(@this);
         }
-        
+
         /// <summary>
         /// Removes and return the last item of the list.
         /// </summary>
@@ -74,7 +74,7 @@ namespace Nebukam
         public static T Pop<T>(this IList<T> @this)
         {
             int index = @this.Count - 1;
-            if(index < 0) { return default(T); }
+            if (index < 0) { return default(T); }
 
             T result = @this[index];
             @this.RemoveAt(index);
@@ -96,7 +96,7 @@ namespace Nebukam
             @this.RemoveAt(0);
             return result;
         }
-        
+
         /// <summary>
         /// Only add an item if it isn't already in the list.
         /// </summary>
