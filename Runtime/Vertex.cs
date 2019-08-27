@@ -35,7 +35,7 @@ namespace Nebukam
     public class Vertex : Pooling.PoolItem, IVertex
     {
 
-        internal float3 m_pos = float3(false);
+        internal float3 m_pos = float3(0f);
         public float3 pos
         {
             get { return m_pos; }
@@ -47,10 +47,10 @@ namespace Nebukam
             }
         }
 
-        internal float2 m_XY = float2(false);
+        internal float2 m_XY = float2(0f);
         public float2 XY { get { return m_XY; } }
 
-        internal float2 m_XZ = float2(false);
+        internal float2 m_XZ = float2(0f);
         public float2 XZ { get { return m_XZ; } }
 
         public float2 Pair(AxisPair pair)

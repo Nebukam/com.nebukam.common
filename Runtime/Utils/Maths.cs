@@ -200,7 +200,7 @@ namespace Nebukam.Utils
 
             float3 a, b, c, n;
 
-            a = float3(false);
+            a = float3(0f);
             b = axis;
             c = dir;
 
