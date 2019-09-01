@@ -26,112 +26,56 @@ using static Unity.Mathematics.math;
 namespace Nebukam
 {
 
-    public interface IVertexGroup
+    public interface IVertexGroup<out V>
+        where V : IVertex
     {
 
         List<IVertex> vertices { get; }
         int Count { get; }
-        IVertex this[int index] { get; }
+        V this[int index] { get; }
         int this[IVertex v] { get; }
 
-        /// <summary>
-        /// Adds a vertex in the group.
-        /// </summary>
-        /// <param name="v">The vertex to be added.</param>
-        /// <param name="ownVertex">Whether or not this group gets ownership over the vertex.</param>
-        /// <returns></returns>
-        IVertex Add(IVertex v);
+        #region add
 
-        /// <summary>
-        /// Create a vertex in the group, from a Vector3.
-        /// </summary>
-        /// <param name="v"></param>
-        /// <returns></returns>
-        IVertex Add(float3 v);
+        V Add();
+        V Add(IVertex v);
+        V Add(float3 v);
+        V Insert(int index, IVertex v);
+        V Insert(int index, float3 v);
 
-        /// <summary>
-        /// Inserts a vertex at a given index in the group.
-        /// </summary>
-        /// <param name="index"></param>
-        /// <param name="v"></param>
-        /// <param name="ownVertex"></param>
-        /// <param name="allowProxy"></param>
-        /// <returns></returns>
-        IVertex Insert(int index, IVertex v);
+        #endregion
 
-        /// <summary>
-        /// Create a vertex in the group at the given index
-        /// </summary>
-        /// <param name="index"></param>
-        /// <param name="v"></param>
-        /// <returns></returns>
-        IVertex Insert(int index, float3 v);
+        #region remove
+        
+        V Remove(IVertex v, bool release = false);
+        V RemoveAt(int index, bool release = false);
 
-        /// <summary>
-        /// Removes a given vertex from the group.
-        /// </summary>
-        /// <param name="v"></param>
-        /// <param name="keepProxies"></param>
-        /// <returns></returns>
-        IVertex Remove(IVertex v, bool release = false);
+        #endregion
 
-        /// <summary>
-        /// Removes the vertex at the given index from the group .
-        /// </summary>
-        /// <param name="index"></param>
-        /// <param name="keepProxies"></param>
-        /// <returns></returns>
-        IVertex RemoveAt(int index, bool release = false);
 
-        /// <summary>
-        /// Inverse vertices's order
-        /// </summary>
+        #region utils
+        
         void Reverse();
-
-        IVertex Shift(bool release = false);
-
-        IVertex Pop(bool release = false);
-
+        V Shift(bool release = false);
+        V Pop(bool release = false);
         void Clear(bool release = false);
-
         void Offset(float3 offset);
 
+        #endregion
+        
         #region Nearest vertex in group
-
-        /// <summary>
-        /// Return the vertex index in group of the nearest IVertex to a given IVertex v
-        /// </summary>
-        /// <param name="v"></param>
-        /// <returns></returns>
+        
         int GetNearestVertexIndex(IVertex v);
-
-        /// <summary>
-        /// Return the the nearest IVertex in group to a given IVertex v
-        /// </summary>
-        /// <param name="v"></param>
-        /// <returns></returns>
-        IVertex GetNearestVertex(IVertex v);
-
-        /// <summary>
-        /// Return the vertex index in group of the nearest IVertex to a given v
-        /// </summary>
-        /// <param name="v"></param>
-        /// <returns></returns>
+        V GetNearestVertex(IVertex v);
         int GetNearestVertexIndex(float3 v);
-
-        /// <summary>
-        /// Return the nearest IVertex in group of the nearest IVertex to a given v
-        /// </summary>
-        /// <param name="v"></param>
-        /// <returns></returns>
-        IVertex GetNearestVertex(float3 v);
+        V GetNearestVertex(float3 v);
 
 
         #endregion
 
     }
 
-    public class VertexGroup<V> : Pooling.PoolItem, IVertexGroup
+    public class VertexGroup<V> : Pooling.PoolItem, IVertexGroup<V>
         where V : Vertex, IVertex, new()
     {
 
@@ -145,7 +89,7 @@ namespace Nebukam
 
         public int Count { get { return m_vertices.Count; } }
 
-        public IVertex this[int index] { get { return m_vertices[index]; } }
+        public V this[int index] { get { return m_vertices[index] as V; } }
         public int this[IVertex v] { get { return m_vertices.IndexOf(v); } }
 
         public VertexGroup()
@@ -154,30 +98,45 @@ namespace Nebukam
         }
 
 
+        #region add
+        
+        /// <summary>
+        /// Create a vertex in the group
+        /// </summary>
+        /// <returns></returns>
+        public virtual V Add()
+        {
+            return Add(Pooling.Pool.Rent<V>() as IVertex);
+        }
+
         /// <summary>
         /// Adds a vertex in the group.
         /// </summary>
         /// <param name="v">The vertex to be added.</param>
         /// <param name="ownVertex">Whether or not this group gets ownership over the vertex.</param>
         /// <returns></returns>
-        public IVertex Add(IVertex v)
+        public V Add(IVertex v)
         {
-            if (m_vertices.Contains(v)) { return null; }
-            m_vertices.Add(v);
-            OnVertexAdded(v as V);
-            return v;
+            V vert = v as V;
+#if UNITY_EDITOR
+            if (vert == null) { throw new System.Exception("Wrong vertex type"); }
+#endif
+            if (m_vertices.Contains(vert)) { return vert; }
+            m_vertices.Add(vert);
+            OnVertexAdded(vert);
+            return vert;
         }
 
         /// <summary>
-        /// Create a vertex in the group, from a Vector3.
+        /// Create a vertex in the group, from a float3.
         /// </summary>
         /// <param name="v"></param>
         /// <returns></returns>
-        public virtual IVertex Add(float3 v)
+        public virtual V Add(float3 v)
         {
-            IVertex vert = Pooling.Pool.Rent<V>();
+            V vert = Pooling.Pool.Rent<V>();
             vert.pos = v;
-            return Add(vert);
+            return Add(vert as IVertex);
         }
 
         /// <summary>
@@ -188,29 +147,34 @@ namespace Nebukam
         /// <param name="ownVertex"></param>
         /// <param name="allowProxy"></param>
         /// <returns></returns>
-        public IVertex Insert(int index, IVertex v)
+        public V Insert(int index, IVertex v)
         {
-            IVertex vertex = Add(v);
 
-            if (vertex == null)
+#if UNITY_EDITOR
+            if (!(v is V)) { throw new System.Exception("Insert(float, IVertex) : parameter T (" + v.GetType().Name + ") does not implement " + typeof(V).Name + "."); }
+#endif
+
+            V vert = Add(v);
+
+            if (vert == null)
                 return null;
 
-            int currentIndex = m_vertices.IndexOf(v);
-            if (currentIndex == index) { return v; }
+            int currentIndex = m_vertices.IndexOf(vert);
+            if (currentIndex == index) { return vert; }
             if (currentIndex != -1)
             {
                 m_vertices.RemoveAt(currentIndex);
                 if (currentIndex < index)
-                    m_vertices.Insert(index - 1, v);
+                    m_vertices.Insert(index - 1, vert);
                 else
-                    m_vertices.Insert(index, v);
+                    m_vertices.Insert(index, vert);
             }
             else
             {
-                m_vertices.Insert(index, v);
-                OnVertexAdded(v as V);
+                m_vertices.Insert(index, vert);
+                OnVertexAdded(vert);
             }
-            return v;
+            return vert;
         }
 
         /// <summary>
@@ -219,15 +183,19 @@ namespace Nebukam
         /// <param name="index"></param>
         /// <param name="v"></param>
         /// <returns></returns>
-        public virtual IVertex Insert(int index, float3 v)
+        public virtual V Insert(int index, float3 v)
         {
-            IVertex vert = Pooling.Pool.Rent<V>();
+            V vert = Pooling.Pool.Rent<V>();
             vert.pos = v;
 
             m_vertices.Insert(index, vert);
-            OnVertexAdded(v as V);
+            OnVertexAdded(vert);
             return vert;
         }
+
+#endregion
+
+        #region remove
 
         /// <summary>
         /// Removes a given vertex from the group.
@@ -235,7 +203,7 @@ namespace Nebukam
         /// <param name="v"></param>
         /// <param name="keepProxies"></param>
         /// <returns></returns>
-        public IVertex Remove(IVertex v, bool release = false)
+        public V Remove(IVertex v, bool release = false)
         {
             int index = m_vertices.IndexOf(v);
             return RemoveAt(index);
@@ -247,14 +215,18 @@ namespace Nebukam
         /// <param name="index"></param>
         /// <param name="keepProxies"></param>
         /// <returns></returns>
-        public IVertex RemoveAt(int index, bool release = false)
+        public V RemoveAt(int index, bool release = false)
         {
-            IVertex result = m_vertices[index];
+            V result = m_vertices[index] as V;
             m_vertices.RemoveAt(index);
             OnVertexRemoved(result as V);
             if (release) { result.Release(); }
             return result;
         }
+
+        #endregion
+
+        #region callbacks
 
         protected virtual void OnVertexAdded(V v)
         {
@@ -268,8 +240,12 @@ namespace Nebukam
 
         protected virtual void OnVertexReleased(IPoolItem vertex)
         {
-            Remove(vertex as IVertex);
+            Remove(vertex as V);
         }
+
+        #endregion
+
+        #region utils
 
         /// <summary>
         /// Inverse vertices's order
@@ -283,7 +259,7 @@ namespace Nebukam
         /// Removes and return the first item in the group
         /// </summary>
         /// <returns></returns>
-        public IVertex Shift(bool release = false)
+        public V Shift(bool release = false)
         {
             int count = m_vertices.Count;
             if (count == 0) { return null; }
@@ -294,7 +270,7 @@ namespace Nebukam
         /// Removes and return the last item in the group
         /// </summary>
         /// <returns></returns>
-        public IVertex Pop(bool release = false)
+        public V Pop(bool release = false)
         {
             int count = m_vertices.Count;
             if (count == 0) { return null; }
@@ -323,6 +299,8 @@ namespace Nebukam
             for (int i = 0, count = m_vertices.Count; i < count; i++)
                 m_vertices[i].pos += offset;
         }
+
+        #endregion
 
         #region PoolItem
 
@@ -371,11 +349,11 @@ namespace Nebukam
         /// </summary>
         /// <param name="v"></param>
         /// <returns></returns>
-        public IVertex GetNearestVertex(IVertex v)
+        public V GetNearestVertex(IVertex v)
         {
             int index = GetNearestVertexIndex(v);
             if (index == -1) { return null; }
-            return m_vertices[index];
+            return m_vertices[index] as V;
         }
 
         /// <summary>
@@ -409,11 +387,11 @@ namespace Nebukam
         /// </summary>
         /// <param name="v"></param>
         /// <returns></returns>
-        public IVertex GetNearestVertex(float3 v)
+        public V GetNearestVertex(float3 v)
         {
             int index = GetNearestVertexIndex(v);
             if (index == -1) { return null; }
-            return m_vertices[index];
+            return m_vertices[index] as V;
         }
 
 
