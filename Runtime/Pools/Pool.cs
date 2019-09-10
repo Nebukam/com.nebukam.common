@@ -168,10 +168,10 @@ namespace Nebukam.Pooling
         where T : PoolItem, IPoolNode, new()
     {
 
-        internal int m_poolSize = 0;
-        internal int m_newTicker = 0;
+        protected internal int m_poolSize = 0;
+        protected internal int m_newTicker = 0;
 
-        internal T m_tail = null;
+        protected internal T m_tail = null;
 
         int IPool.poolSize { get { return m_poolSize; } }
         int IPool.newTicker { get { return m_newTicker; } }

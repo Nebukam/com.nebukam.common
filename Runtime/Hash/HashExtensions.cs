@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2019 Timothé Lapetite - nebukam@gmail.com
+﻿// Copyright (c) 2019 Timothé Lapetite - nebukam@gmail.com.
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -18,49 +18,24 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System.Collections.Generic;
+using Unity.Mathematics;
 
-namespace Nebukam.Pooling
+namespace Nebukam
 {
-
-    public interface IPoolItem
+    public static class HashExtensions
     {
-        void Release();
+        //TODO : Wrap /modulo helpers
+
+        public static int Volume(this int2 @this) { return @this.x * @this.y; }
+        public static int Volume(this BytePair @this) { return @this.x * @this.y; }
+        public static int Volume(this UBytePair @this) { return @this.x * @this.y; }
+        public static int Volume(this IntPair @this) { return @this.x * @this.y; }
+        public static int Volume(this UIntPair @this) { return @this.x * @this.y; }
+
+        public static int Volume(this int3 @this) { return @this.x * @this.y * @this.z; }
+        public static int Volume(this ByteTrio @this) { return @this.x * @this.y * @this.z; }
+        public static int Volume(this UByteTrio @this) { return @this.x * @this.y * @this.z; }
+        public static int Volume(this IntTrio @this) { return @this.x * @this.y * @this.z; }
+        public static int Volume(this UIntTrio @this) { return @this.x * @this.y * @this.z; }
     }
-
-    public interface IRequireCleanUp : IPoolItem
-    {
-        void CleanUp();
-    }
-
-    public interface IRequireInit : IPoolItem
-    {
-        void Init();
-    }
-
-    internal interface IPoolNode : IPoolItem
-    {
-        IPoolNode __prevNode { get; set; }
-        bool __released { get; set; }
-    }
-
-    public abstract class PoolItem : IPoolNode
-    {
-
-        internal List<Pool.OnItemReleased> __onRelease = null;
-        IPoolNode IPoolNode.__prevNode { get; set; } = null;
-        bool IPoolNode.__released { get; set; } = false;
-
-        public void Release()
-        {
-            Pool.ReturnNode(this);
-        }
-
-        public static implicit operator bool(PoolItem item)
-        {
-            return !(item as IPoolNode).__released;
-        }
-
-    }
-
 }

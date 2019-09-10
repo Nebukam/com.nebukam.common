@@ -19,7 +19,7 @@ namespace Nebukam
         [RuntimeInitializeOnLoadMethod]
         static void RunOnStart()
         {
-            GameObject global = new GameObject();
+            GameObject global = new GameObject("Nebukam.Static");
             DontDestroyOnLoad(global);
 
             global.hideFlags = HideFlags.HideInHierarchy;

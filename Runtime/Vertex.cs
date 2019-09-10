@@ -35,27 +35,19 @@ namespace Nebukam
     public class Vertex : Pooling.PoolItem, IVertex
     {
 
-        internal float3 m_pos = float3(0f);
+        protected internal float3 m_pos = float3(0f);
+
         public float3 pos
         {
             get { return m_pos; }
-            set
-            {
-                m_pos = value;
-                m_XY = float2(value.x, value.y);
-                m_XZ = float2(value.x, value.z);
-            }
+            set { m_pos = value; }
         }
-
-        internal float2 m_XY = float2(0f);
-        public float2 XY { get { return m_XY; } }
-
-        internal float2 m_XZ = float2(0f);
-        public float2 XZ { get { return m_XZ; } }
+        public float2 XY { get { return float2(m_pos.x, m_pos.y); } }
+        public float2 XZ { get { return float2(m_pos.x, m_pos.z); } }
 
         public float2 Pair(AxisPair pair)
         {
-            return pair == AxisPair.XY ? m_XY : m_XZ;
+            return pair == AxisPair.XY ? XY : XZ;
         }
 
         public Vertex()

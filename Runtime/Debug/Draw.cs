@@ -151,5 +151,42 @@ namespace Nebukam.Utils
 
         }
 
+        /// <summary>
+        /// Draw a square at the specified location (XZ plane).
+        /// </summary>
+        /// <param name="center"></param>
+        /// <param name="size"></param>
+        /// <param name="col"></param>
+        static public void Cube(float3 center, float size, Color col)
+        {
+            float s = size * 0.5f;
+
+            float3 A = center + float3(-s, s, -s);
+            float3 B = center + float3(-s, s, s);
+            float3 C = center + float3(s, s, s);
+            float3 D = center + float3(s, s, -s);
+
+            float3 E = center + float3(-s, -s, -s);
+            float3 F = center + float3(-s, -s, s);
+            float3 G = center + float3(s, -s, s);
+            float3 H = center + float3(s, -s, -s);
+
+            Line(A, B, col);
+            Line(B, C, col);
+            Line(C, D, col);
+            Line(D, A, col);
+
+            Line(E, F, col);
+            Line(F, G, col);
+            Line(G, H, col);
+            Line(H, E, col);
+
+            Line(A, E, col);
+            Line(B, F, col);
+            Line(C, G, col);
+            Line(D, H, col);
+
+        }
+
     }
 }
