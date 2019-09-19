@@ -104,6 +104,11 @@ namespace Nebukam
             }
         }
 
+        public override string ToString()
+        {
+            return string.Format("({0},{1},{2})", x, y, z);
+        }
+
         public static UIntTrio operator +(UIntTrio l, UIntTrio r) { return new UIntTrio(l.x + r.x, l.y + r.y, l.z + r.z); }
         public static UIntTrio operator -(UIntTrio l, UIntTrio r) { return new UIntTrio(l.x - r.x, l.y - r.y, l.z - r.z); }
         public static UIntTrio operator *(UIntTrio l, UIntTrio r) { return new UIntTrio(l.x * r.x, l.y * r.y, l.z * r.z); }
@@ -131,6 +136,12 @@ namespace Nebukam
 
         public static float3 operator *(UIntTrio l, float3 r) { return float3(l.x * r.x, l.y * r.y, l.z * r.z); }
         public static float3 operator *(float3 l, UIntTrio r) { return float3(l.x * r.x, l.y * r.y, l.z * r.z); }
+
+        public static float3 operator *(UIntTrio l, float r) { return float3(l.x * r, l.y * r, l.z * r); }
+        public static float3 operator /(UIntTrio l, float r) { return float3(l.x / r, l.y / r, l.z / r); }
+
+        public static float3 operator *(float l, UIntTrio r) { return float3(l * r.x, l * r.y, l * r.z); }
+        public static float3 operator /(float l, UIntTrio r) { return float3(l / r.x, l / r.y, l / r.z); }
 
         public static implicit operator UIntTrio(IntTrio trio) { return new UIntTrio(trio.x, trio.y, trio.z); }
         public static implicit operator int3(UIntTrio trio) { return new int3(trio.x, trio.y, trio.z); }

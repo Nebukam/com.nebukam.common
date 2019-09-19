@@ -85,6 +85,11 @@ namespace Nebukam
             return (x << 8) | (y << 0);
         }
 
+        public override string ToString()
+        {
+            return string.Format("({0},{1})", x, y);
+        }
+
         public static BytePair operator +(BytePair l, BytePair r) { return new BytePair(l.x + r.x, l.y + r.y); }
         public static BytePair operator -(BytePair l, BytePair r) { return new BytePair(l.x - r.x, l.y - r.y); }
         public static BytePair operator *(BytePair l, BytePair r) { return new BytePair(l.x * r.x, l.y * r.y); }
@@ -115,6 +120,12 @@ namespace Nebukam
 
         public static float3 operator *(BytePair l, float3 r) { return float3(l.x * r.x, l.y * r.y, r.z); }
         public static float3 operator *(float3 l, BytePair r) { return float3(l.x * r.x, l.y * r.y, l.z); }
+
+        public static float2 operator *(BytePair l, float r) { return float2(l.x * r, l.y * r); }
+        public static float2 operator /(BytePair l, float r) { return float2(l.x / r, l.y / r); }
+
+        public static float2 operator *(float l, BytePair r) { return float2(l * r.x, l * r.y); }
+        public static float2 operator /(float l, BytePair r) { return float2(l / r.x, l / r.y); }
 
         public static implicit operator UBytePair(BytePair pair) { return new UBytePair(pair.x, pair.y); }
         public static implicit operator int2(BytePair pair) { return int2(pair.x, pair.y); }

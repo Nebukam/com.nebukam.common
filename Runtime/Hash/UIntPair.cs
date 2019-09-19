@@ -83,6 +83,11 @@ namespace Nebukam
             }
         }
 
+        public override string ToString()
+        {
+            return string.Format("({0},{1})", x, y);
+        }
+
         public static UIntPair operator +(UIntPair l, UIntPair r) { return new UIntPair(l.x + r.x, l.y + r.y); }
         public static UIntPair operator -(UIntPair l, UIntPair r) { return new UIntPair(l.x - r.x, l.y - r.y); }
         public static UIntPair operator *(UIntPair l, UIntPair r) { return new UIntPair(l.x * r.x, l.y * r.y); }
@@ -113,6 +118,12 @@ namespace Nebukam
 
         public static float3 operator *(UIntPair l, float3 r) { return float3(l.x * r.x, l.y * r.y, r.z); }
         public static float3 operator *(float3 l, UIntPair r) { return float3(l.x * r.x, l.y * r.y, l.z); }
+
+        public static float2 operator *(UIntPair l, float r) { return float2(l.x * r, l.y * r); }
+        public static float2 operator /(UIntPair l, float r) { return float2(l.x / r, l.y / r); }
+
+        public static float2 operator *(float l, UIntPair r) { return float2(l * r.x, l * r.y); }
+        public static float2 operator /(float l, UIntPair r) { return float2(l / r.x, l / r.y); }
 
         public static implicit operator IntPair(UIntPair pair) { return new IntPair(pair.x, pair.y); }
         public static implicit operator int2(UIntPair pair) { return new int2(pair.x, pair.y); }

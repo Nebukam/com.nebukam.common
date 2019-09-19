@@ -30,10 +30,25 @@ namespace Nebukam
         where V : IVertex
     {
 
-        List<IVertex> vertices { get; }
         int Count { get; }
         V this[int index] { get; }
         int this[IVertex v] { get; }
+
+
+        #region Nearest vertex in group
+
+        int GetNearestVertexIndex(IVertex v);
+        V GetNearestVertex(IVertex v);
+        int GetNearestVertexIndex(float3 v);
+        V GetNearestVertex(float3 v);
+
+        #endregion
+
+    }
+
+    public interface IEditableVertexGroup<out V> : IVertexGroup<V>
+        where V : IVertex
+    {
 
         #region add
 
@@ -52,7 +67,6 @@ namespace Nebukam
 
         #endregion
 
-
         #region utils
         
         void Reverse();
@@ -63,19 +77,9 @@ namespace Nebukam
 
         #endregion
         
-        #region Nearest vertex in group
-        
-        int GetNearestVertexIndex(IVertex v);
-        V GetNearestVertex(IVertex v);
-        int GetNearestVertexIndex(float3 v);
-        V GetNearestVertex(float3 v);
-
-
-        #endregion
-
     }
 
-    public class VertexGroup<V> : Pooling.PoolItem, IVertexGroup<V>
+    public class VertexGroup<V> : Pooling.PoolItem, IEditableVertexGroup<V>
         where V : Vertex, IVertex, new()
     {
 
