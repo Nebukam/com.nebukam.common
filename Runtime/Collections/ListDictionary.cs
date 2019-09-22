@@ -30,7 +30,7 @@ namespace Nebukam.Collections
         
         public int KeyCount { get { return m_dictionary.Count; } }
         public List<TKey> keyList { get { return m_keyList; } }
-        public List<TValue> this[TKey key] { get { m_dictionary[key]; } }
+        public List<TValue> this[TKey key] { get { return m_dictionary[key]; } }
 
         public int ValueCount(TKey key)
         {
