@@ -123,6 +123,7 @@ namespace Nebukam
         public static implicit operator IntTrio(UIntTrio trio) { return new IntTrio(trio.x, trio.y, trio.z); }
         public static implicit operator int3(IntTrio trio) { return new int3(trio.x, trio.y, trio.z); }
         public static implicit operator IntTrio(int3 i) { return new IntTrio(i.x, i.y, i.z); }
+        
 
     }
 

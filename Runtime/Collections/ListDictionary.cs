@@ -32,8 +32,8 @@ namespace Nebukam.Collections
 
         public int ValueCount(TKey key)
         {
-            List<TValue> entries;
-            if (m_dictionary.TryGetValue(key, out entries))
+            
+            if (m_dictionary.TryGetValue(key, out List<TValue> entries))
                 return entries.Count;
 
             return 0;
@@ -48,10 +48,24 @@ namespace Nebukam.Collections
             return false;
         }
 
+        public bool Contains(TKey key)
+        {
+            return m_dictionary.ContainsKey(key);
+        }
+
+        public bool Contains(TKey key, TValue value)
+        {
+            if(m_dictionary.TryGetValue(key, out List<TValue> values))
+                if (values.Contains(value))
+                    return true;
+
+            return false;
+        }
+
         public TValue Add(TKey key, TValue value)
         {
-            List<TValue> entries;
-            if (m_dictionary.TryGetValue(key, out entries))
+
+            if (m_dictionary.TryGetValue(key, out List<TValue> entries))
                 entries.AddOnce(value);
             else
                 m_dictionary[key] = new List<TValue>() { value };
@@ -61,8 +75,7 @@ namespace Nebukam.Collections
 
         public bool Remove(TKey key, TValue value)
         {
-            List<TValue> entries;
-            if (m_dictionary.TryGetValue(key, out entries))
+            if (m_dictionary.TryGetValue(key, out List<TValue> entries))
             {
                 if (entries.Remove(value))
                 {
@@ -78,8 +91,7 @@ namespace Nebukam.Collections
 
         public bool Remove(TKey key)
         {
-            List<TValue> entries;
-            if (m_dictionary.TryGetValue(key, out entries))
+            if (m_dictionary.TryGetValue(key, out List<TValue> entries))
             {
                 entries.Clear();
                 m_dictionary.Remove(key);
