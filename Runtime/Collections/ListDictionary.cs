@@ -39,6 +39,15 @@ namespace Nebukam.Collections
             return 0;
         }
 
+        public bool TryGet(TKey key, out List<TValue> values)
+        {
+            if (m_dictionary.TryGetValue(key, out values))
+                return true;
+
+            values = null;
+            return false;
+        }
+
         public TValue Add(TKey key, TValue value)
         {
             List<TValue> entries;
@@ -82,14 +91,19 @@ namespace Nebukam.Collections
             }
         }
 
-        public void CleanUp()
+        public void Clear()
         {
             int count = m_keyList.Count;
-            for(int i = 0; i < count; i++)
+            for (int i = 0; i < count; i++)
                 m_dictionary[m_keyList[i]].Clear();
 
             m_keyList.Clear();
             m_dictionary.Clear();
+        }
+
+        public void CleanUp()
+        {
+            Clear();
         }
 
     }
