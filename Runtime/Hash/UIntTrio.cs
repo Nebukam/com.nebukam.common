@@ -109,6 +109,16 @@ namespace Nebukam
             return string.Format("({0},{1},{2})", x, y, z);
         }
 
+        public static UIntTrio operator +(UIntTrio l, int r) { return new UIntTrio(l.x + r, l.y + r, l.z + r); }
+        public static UIntTrio operator -(UIntTrio l, int r) { return new UIntTrio(l.x - r, l.y - r, l.z + r); }
+        public static UIntTrio operator *(UIntTrio l, int r) { return new UIntTrio(l.x * r, l.y * r, l.z * r); }
+        public static UIntTrio operator /(UIntTrio l, int r) { return new UIntTrio(l.x / r, l.y / r, l.z / r); }
+
+        public static UIntTrio operator +(int l, UIntTrio r) { return new UIntTrio(r.x + l, r.y + l, r.z + l); }
+        public static UIntTrio operator -(int l, UIntTrio r) { return new UIntTrio(r.x - l, r.y - l, r.z + l); }
+        public static UIntTrio operator *(int l, UIntTrio r) { return new UIntTrio(r.x * l, r.y * l, r.z * l); }
+        public static UIntTrio operator /(int l, UIntTrio r) { return new UIntTrio(r.x / l, r.y / l, r.z / l); }
+
         public static UIntTrio operator +(UIntTrio l, UIntTrio r) { return new UIntTrio(l.x + r.x, l.y + r.y, l.z + r.z); }
         public static UIntTrio operator -(UIntTrio l, UIntTrio r) { return new UIntTrio(l.x - r.x, l.y - r.y, l.z - r.z); }
         public static UIntTrio operator *(UIntTrio l, UIntTrio r) { return new UIntTrio(l.x * r.x, l.y * r.y, l.z * r.z); }

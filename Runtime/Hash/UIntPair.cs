@@ -88,6 +88,16 @@ namespace Nebukam
             return string.Format("({0},{1})", x, y);
         }
 
+        public static UIntPair operator +(UIntPair l, int r) { return new UIntPair(l.x + r, l.y + r); }
+        public static UIntPair operator -(UIntPair l, int r) { return new UIntPair(l.x - r, l.y - r); }
+        public static UIntPair operator *(UIntPair l, int r) { return new UIntPair(l.x * r, l.y * r); }
+        public static UIntPair operator /(UIntPair l, int r) { return new UIntPair(l.x / r, l.y / r); }
+
+        public static UIntPair operator +(int l, UIntPair r) { return new UIntPair(r.x + l, r.y + l); }
+        public static UIntPair operator -(int l, UIntPair r) { return new UIntPair(r.x - l, r.y - l); }
+        public static UIntPair operator *(int l, UIntPair r) { return new UIntPair(r.x * l, r.y * l); }
+        public static UIntPair operator /(int l, UIntPair r) { return new UIntPair(r.x / l, r.y / l); }
+
         public static UIntPair operator +(UIntPair l, UIntPair r) { return new UIntPair(l.x + r.x, l.y + r.y); }
         public static UIntPair operator -(UIntPair l, UIntPair r) { return new UIntPair(l.x - r.x, l.y - r.y); }
         public static UIntPair operator *(UIntPair l, UIntPair r) { return new UIntPair(l.x * r.x, l.y * r.y); }

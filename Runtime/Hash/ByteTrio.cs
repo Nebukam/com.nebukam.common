@@ -93,6 +93,16 @@ namespace Nebukam
             return string.Format("({0},{1},{2})", x, y, z);
         }
 
+        public static ByteTrio operator +(ByteTrio l, int r) { return new ByteTrio(l.x + r, l.y + r, l.z + r); }
+        public static ByteTrio operator -(ByteTrio l, int r) { return new ByteTrio(l.x - r, l.y - r, l.z + r); }
+        public static ByteTrio operator *(ByteTrio l, int r) { return new ByteTrio(l.x * r, l.y * r, l.z * r); }
+        public static ByteTrio operator /(ByteTrio l, int r) { return new ByteTrio(l.x / r, l.y / r, l.z / r); }
+
+        public static ByteTrio operator +(int l, ByteTrio r) { return new ByteTrio(r.x + l, r.y + l, r.z + l); }
+        public static ByteTrio operator -(int l, ByteTrio r) { return new ByteTrio(r.x - l, r.y - l, r.z + l); }
+        public static ByteTrio operator *(int l, ByteTrio r) { return new ByteTrio(r.x * l, r.y * l, r.z * l); }
+        public static ByteTrio operator /(int l, ByteTrio r) { return new ByteTrio(r.x / l, r.y / l, r.z / l); }
+
         public static ByteTrio operator +(ByteTrio l, ByteTrio r) { return new ByteTrio(l.x + r.x, l.y + r.y, l.z + r.z); }
         public static ByteTrio operator -(ByteTrio l, ByteTrio r) { return new ByteTrio(l.x - r.x, l.y - r.y, l.z - r.z); }
         public static ByteTrio operator *(ByteTrio l, ByteTrio r) { return new ByteTrio(l.x * r.x, l.y * r.y, l.z * r.z); }

@@ -90,6 +90,16 @@ namespace Nebukam
             return string.Format("({0},{1})", x, y);
         }
 
+        public static UBytePair operator +(UBytePair l, int r) { return new UBytePair(l.x + r, l.y + r); }
+        public static UBytePair operator -(UBytePair l, int r) { return new UBytePair(l.x - r, l.y - r); }
+        public static UBytePair operator *(UBytePair l, int r) { return new UBytePair(l.x * r, l.y * r); }
+        public static UBytePair operator /(UBytePair l, int r) { return new UBytePair(l.x / r, l.y / r); }
+
+        public static UBytePair operator +(int l, UBytePair r) { return new UBytePair(r.x + l, r.y + l); }
+        public static UBytePair operator -(int l, UBytePair r) { return new UBytePair(r.x - l, r.y - l); }
+        public static UBytePair operator *(int l, UBytePair r) { return new UBytePair(r.x * l, r.y * l); }
+        public static UBytePair operator /(int l, UBytePair r) { return new UBytePair(r.x / l, r.y / l); }
+
         public static UBytePair operator +(UBytePair l, UBytePair r) { return new UBytePair(l.x + r.x, l.y + r.y); }
         public static UBytePair operator -(UBytePair l, UBytePair r) { return new UBytePair(l.x - r.x, l.y - r.y); }
         public static UBytePair operator *(UBytePair l, UBytePair r) { return new UBytePair(l.x * r.x, l.y * r.y); }

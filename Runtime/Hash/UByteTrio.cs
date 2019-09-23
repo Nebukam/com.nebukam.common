@@ -118,6 +118,16 @@ namespace Nebukam
             return string.Format("({0},{1},{2})", x, y, z);
         }
 
+        public static UByteTrio operator +(UByteTrio l, int r) { return new UByteTrio(l.x + r, l.y + r, l.z + r); }
+        public static UByteTrio operator -(UByteTrio l, int r) { return new UByteTrio(l.x - r, l.y - r, l.z + r); }
+        public static UByteTrio operator *(UByteTrio l, int r) { return new UByteTrio(l.x * r, l.y * r, l.z * r); }
+        public static UByteTrio operator /(UByteTrio l, int r) { return new UByteTrio(l.x / r, l.y / r, l.z / r); }
+
+        public static UByteTrio operator +(int l, UByteTrio r) { return new UByteTrio(r.x + l, r.y + l, r.z + l); }
+        public static UByteTrio operator -(int l, UByteTrio r) { return new UByteTrio(r.x - l, r.y - l, r.z + l); }
+        public static UByteTrio operator *(int l, UByteTrio r) { return new UByteTrio(r.x * l, r.y * l, r.z * l); }
+        public static UByteTrio operator /(int l, UByteTrio r) { return new UByteTrio(r.x / l, r.y / l, r.z / l); }
+
         public static UByteTrio operator +(UByteTrio l, UByteTrio r) { return new UByteTrio(l.x + r.x, l.y + r.y, l.z + r.z); }
         public static UByteTrio operator -(UByteTrio l, UByteTrio r) { return new UByteTrio(l.x - r.x, l.y - r.y, l.z - r.z); }
         public static UByteTrio operator *(UByteTrio l, UByteTrio r) { return new UByteTrio(l.x * r.x, l.y * r.y, l.z * r.z); }

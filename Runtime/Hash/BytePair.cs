@@ -90,6 +90,16 @@ namespace Nebukam
             return string.Format("({0},{1})", x, y);
         }
 
+        public static BytePair operator +(BytePair l, int r) { return new BytePair(l.x + r, l.y + r); }
+        public static BytePair operator -(BytePair l, int r) { return new BytePair(l.x - r, l.y - r); }
+        public static BytePair operator *(BytePair l, int r) { return new BytePair(l.x * r, l.y * r); }
+        public static BytePair operator /(BytePair l, int r) { return new BytePair(l.x / r, l.y / r); }
+
+        public static BytePair operator +(int l, BytePair r) { return new BytePair(r.x + l, r.y + l); }
+        public static BytePair operator -(int l, BytePair r) { return new BytePair(r.x - l, r.y - l); }
+        public static BytePair operator *(int l, BytePair r) { return new BytePair(r.x * l, r.y * l); }
+        public static BytePair operator /(int l, BytePair r) { return new BytePair(r.x / l, r.y / l); }
+
         public static BytePair operator +(BytePair l, BytePair r) { return new BytePair(l.x + r.x, l.y + r.y); }
         public static BytePair operator -(BytePair l, BytePair r) { return new BytePair(l.x - r.x, l.y - r.y); }
         public static BytePair operator *(BytePair l, BytePair r) { return new BytePair(l.x * r.x, l.y * r.y); }
