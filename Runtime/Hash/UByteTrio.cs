@@ -109,7 +109,7 @@ namespace Nebukam
                 else { B = z; C = x; }
             }
 
-            return (A << 16) | (B << 8) | (C << 0);
+            return (A << 0) | (B << 8) | (C << 16);
 
         }
 
@@ -165,6 +165,9 @@ namespace Nebukam
         public static implicit operator UByteTrio(IntTrio trio) { return new UByteTrio(trio.x, trio.y, trio.z); }
         public static implicit operator int3(UByteTrio trio) { return new int3(trio.x, trio.y, trio.z); }
         public static implicit operator UByteTrio(int3 i) { return new UByteTrio(i.x, i.y, i.z); }
+
+        public static explicit operator UByteTrio(int i) { return new UByteTrio((i >> 0) & 255, (i >> 8) & 255, (i >> 16) & 255); }
+        public static explicit operator int(UByteTrio i) { return (i.x << 0) | (i.y << 8) | (i.z << 16); }
 
     }
 

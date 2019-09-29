@@ -82,7 +82,7 @@ namespace Nebukam
 
         public override int GetHashCode()
         {
-            return (x << 8) | (y << 0);
+            return (x << 0) | (y << 8);
         }
 
         public override string ToString()
@@ -140,6 +140,9 @@ namespace Nebukam
         public static implicit operator UBytePair(BytePair pair) { return new UBytePair(pair.x, pair.y); }
         public static implicit operator int2(BytePair pair) { return int2(pair.x, pair.y); }
         public static implicit operator BytePair(int2 i) { return int2(i.x, i.y); }
+
+        public static explicit operator BytePair(int i) { return new BytePair((i >> 0) & 255, (i >> 8) & 255); }
+        public static explicit operator int(BytePair i) { return (i.x << 0) | (i.y << 8); }
 
     }
 

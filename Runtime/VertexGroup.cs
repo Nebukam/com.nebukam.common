@@ -46,7 +46,13 @@ namespace Nebukam
 
     }
 
-    public interface IEditableVertexGroup<out V> : IVertexGroup<V>
+    public interface IClearableVertexGroup<out V> : IVertexGroup<V>
+        where V : IVertex
+    {
+        void Clear(bool release = false);
+    }
+
+    public interface IEditableVertexGroup<out V> : IClearableVertexGroup<V>
         where V : IVertex
     {
 
@@ -72,7 +78,6 @@ namespace Nebukam
         void Reverse();
         V Shift(bool release = false);
         V Pop(bool release = false);
-        void Clear(bool release = false);
         void Offset(float3 offset);
 
         #endregion
