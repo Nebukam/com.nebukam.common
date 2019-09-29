@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Unity.Mathematics;
 using UnityEngine;
 using static Unity.Mathematics.math;
@@ -155,6 +156,7 @@ namespace Nebukam.Utils
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 Mult(float3 a, float3 b) { return new float3(a.x * b.x, a.y * b.y, a.z * b.z); }
 
         #region rotations
@@ -166,6 +168,7 @@ namespace Nebukam.Utils
         /// <param name="pivot"></param>
         /// <param name="angle"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 RotateAroundPivot(float3 point, float3 pivot, quaternion angle)
         {
             return mul(angle, (point - pivot)) + pivot;
@@ -178,6 +181,7 @@ namespace Nebukam.Utils
         /// <param name="pivot"></param>
         /// <param name="angles">Radians</param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 RotateAroundPivot(float3 point, float3 pivot, float3 angles)
         {
             float3 dir = point - pivot; // get point direction relative to pivot
@@ -195,6 +199,7 @@ namespace Nebukam.Utils
         /// <param name="radius"></param>
         /// <param name="radAngle"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 RotatePointAroundAxisDir(float3 origin, float3 axis, float3 dir, float radius, float radAngle)
         {
 
@@ -224,16 +229,19 @@ namespace Nebukam.Utils
         /// <param name="a">The top row of the two-dimensional square matrix</param>
         /// <param name="b">The bottom row of the two-dimensional square matrix</param>
         /// <returns>The determinant of the two-dimensional square matrix.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Det(float2 a, float2 b)
         {
             return a.x * b.y - a.y * b.x;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Dot(float2 a, float2 b)
         {
             return a.x * b.x + a.y * b.y;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Dot(float3 a, float3 b)
         {
             return a.x * b.x + a.y * b.y + a.z * b.z;
@@ -244,6 +252,7 @@ namespace Nebukam.Utils
         /// </summary>
         /// <param name="v"></param>
         /// <returns>The squared length of the two-dimensional vector.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float AbsSq(float2 v)
         {
             return v.x * v.x + v.y * v.y;
@@ -254,6 +263,7 @@ namespace Nebukam.Utils
         /// </summary>
         /// <param name="v"></param>
         /// <returns>The squared length of the two-dimensional vector.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float AbsSq(float3 v)
         {
             return v.x * v.x + v.y * v.y + v.z * v.z;
@@ -264,6 +274,7 @@ namespace Nebukam.Utils
         /// </summary>
         /// <param name="v"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Abs(float2 v)
         {
             return sqrt(v.x * v.x + v.y * v.y);
@@ -274,6 +285,7 @@ namespace Nebukam.Utils
         /// </summary>
         /// <param name="v"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Abs(float3 v)
         {
             return sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
@@ -286,6 +298,7 @@ namespace Nebukam.Utils
         /// <param name="b">The second point on the line.</param>
         /// <param name="c">The point to which the signed distance is to be calculated.</param>
         /// <returns>Positive when the point c lies to the left of the line ab.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float LeftOf(float2 a, float2 b, float2 c)
         {
             float x1 = a.x - c.x, y1 = a.y - c.y, x2 = b.x - a.x, y2 = b.y - a.y;
