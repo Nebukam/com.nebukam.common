@@ -8,7 +8,7 @@ using Unity.Burst;
 
 namespace Nebukam.Utils
 {
-    static public class Random
+    static public class NRandom
     {
 
         /// <summary>
