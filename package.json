@@ -15,7 +15,7 @@
     "url": "https://github.com/Nebukam/com.nebukam.common.git"
   },
   "dependencies": {
-    "com.unity.collections": "0.0.9",
+    "com.unity.collections": "0.0.9-preview.20",
     "com.unity.mathematics": "1.1.0",
     "com.unity.burst": "1.1.2"
   }
