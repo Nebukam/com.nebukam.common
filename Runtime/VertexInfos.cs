@@ -10,6 +10,9 @@ namespace Nebukam
 
     public interface IVertexInfos
     {
+        /// <summary>
+        /// Vertex position
+        /// </summary>
         float3 pos { get; set; }
     }
 
@@ -20,6 +23,9 @@ namespace Nebukam
 
         public float3 m_pos;
 
+        /// <summary>
+        /// Vertex position
+        /// </summary>
         public float3 pos
         {
             get { return m_pos; }
