@@ -33,6 +33,12 @@ namespace Nebukam.Pooling
         public delegate void OnItemReleased(IPoolItem item);
         private static Dictionary<Type, IPool> m_pools = new Dictionary<Type, IPool>();
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="type"></param>
+        /// <returns></returns>
         internal static Pool<T> GetPool<T>(Type type)
             where T : PoolItem, IPoolNode, new()
         {
@@ -52,6 +58,12 @@ namespace Nebukam.Pooling
             return pool;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="item"></param>
+        /// <returns></returns>
         public static bool Return<T>(T item)
             where T : PoolItem, new()
         {
@@ -62,26 +74,33 @@ namespace Nebukam.Pooling
                 return pool.Return(item);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public static T Rent<T>()
             where T : PoolItem, new()
         {
             return GetPool<T>(typeof(T)).Rent();
         }
 
-        public static T Rent<T>(ref T item)
-            where T : PoolItem, new()
-        {
-            if (item != null) { if (!(item as IPoolNode).__released) { return item; } }
-            item = GetPool<T>(typeof(T)).Rent();
-            return item;
-        }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="count"></param>
         public static void Preload<T>(int count)
             where T : PoolItem, new()
         {
             GetPool<T>(typeof(T)).Preload(count);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
         internal static bool ReturnNode(IPoolNode node)
         {
             IPool pool;
@@ -102,6 +121,9 @@ namespace Nebukam.Pooling
 
 #if UNITY_EDITOR
 
+        /// <summary>
+        /// 
+        /// </summary>
         public static void PrintStats()
         {
             string stats = "";
@@ -117,6 +139,11 @@ namespace Nebukam.Pooling
 
 #endif
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="this"></param>
+        /// <param name="returnDelegate"></param>
         public static void onRelease(this PoolItem @this, Pool.OnItemReleased returnDelegate)
         {
 
@@ -137,6 +164,11 @@ namespace Nebukam.Pooling
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="this"></param>
+        /// <param name="returnDelegate"></param>
         public static void offRelease(this PoolItem @this, Pool.OnItemReleased returnDelegate)
         {
 
@@ -176,6 +208,10 @@ namespace Nebukam.Pooling
         int IPool.poolSize { get { return m_poolSize; } }
         int IPool.newTicker { get { return m_newTicker; } }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="count"></param>
         internal void Preload(int count)
         {
 
@@ -194,6 +230,10 @@ namespace Nebukam.Pooling
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         internal T Rent()
         {
 
@@ -222,6 +262,11 @@ namespace Nebukam.Pooling
             return item;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
         bool IPool.Return(IPoolNode node)
         {
             T nAsT = node as T;
@@ -229,6 +274,11 @@ namespace Nebukam.Pooling
             return Return(nAsT);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
         internal bool Return(T node)
         {
             if (node.__released) { return false; }

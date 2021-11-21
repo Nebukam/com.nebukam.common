@@ -19,12 +19,25 @@
 // SOFTWARE.
 
 
+using System;
+using System.Reflection;
+
 namespace Nebukam
 {
 
     internal interface ISingleton
     {
         void InternalInit();
+    }
+
+    [Flags]
+    public enum UpdateFlag
+    {
+        None = 0,
+        Update = 1,
+        FixedUpdate = 2,
+        LateUpdate = 4,
+        All = Update | FixedUpdate | LateUpdate
     }
 
     public abstract class Singleton<T> : ISingleton
@@ -52,28 +65,61 @@ namespace Nebukam
 
         private bool m_disposing = false;
         protected bool m_init = false;
+        protected UpdateFlag m_updateFlags = UpdateFlag.All;
+        protected float m_updateTimeScale = 1f;
+
+        public float updateTimeScale { get => m_updateTimeScale; set => m_updateTimeScale = value; }
+
         void ISingleton.InternalInit()
         {
             if (m_init) { return; }
             Init();
 
-            Static.onUpdate(Update);
-            Static.onLateUpdate(LateUpdate);
-            Static.onFixedUpdate(FixedUpdate);
-            Static.onQuit(OnApplicationQuit);
+            Type t = GetType();
+            if (IsOverride(t.GetMethod("Update"))) { Static.onUpdate(InternalUpdate); }
+            if (IsOverride(t.GetMethod("LateUpdate"))) { Static.onLateUpdate(InternalLateUpdate); }
+            if (IsOverride(t.GetMethod("FixedUpdate"))) { Static.onFixedUpdate(InternalFixedUpdate); }
+            if (IsOverride(t.GetMethod("OnApplicationQuit"))) { Static.onQuit(InternalOnApplicationQuit); }
 
             m_init = true;
         }
 
         protected abstract void Init();
 
-        protected virtual void Update() { }
-        protected virtual void LateUpdate() { }
-        protected virtual void FixedUpdate() { }
-        protected virtual void OnApplicationQuit()
+        #region InternalMethods
+
+        internal void InternalUpdate(float delta)
         {
+            if ((m_updateFlags & UpdateFlag.Update) > 0) { Update(delta * m_updateTimeScale); }
+        }
+
+        internal void InternalLateUpdate(float delta)
+        {
+            if ((m_updateFlags & UpdateFlag.LateUpdate) > 0) { LateUpdate(delta * m_updateTimeScale); }
+        }
+
+        internal void InternalFixedUpdate(float delta)
+        {
+            if ((m_updateFlags & UpdateFlag.FixedUpdate) > 0) { FixedUpdate(delta * m_updateTimeScale); }
+        }
+
+        internal void InternalOnApplicationQuit()
+        {
+            OnApplicationQuit();
             Dispose();
         }
+
+        private static bool IsOverride(MethodInfo m)
+        {
+            return m.GetBaseDefinition().DeclaringType != m.DeclaringType;
+        }
+
+        #endregion
+
+        protected virtual void Update(float delta) { }
+        protected virtual void LateUpdate(float delta) { }
+        protected virtual void FixedUpdate(float delta) { }
+        protected virtual void OnApplicationQuit() { }
 
         #region System.IDisposable
 
@@ -82,10 +128,10 @@ namespace Nebukam
 
             if (!disposing) { return; }
 
-            Static.offUpdate(Update);
-            Static.offLateUpdate(LateUpdate);
-            Static.offFixedUpdate(FixedUpdate);
-            Static.offQuit(OnApplicationQuit);
+            Static.offUpdate(InternalUpdate);
+            Static.offLateUpdate(InternalLateUpdate);
+            Static.offFixedUpdate(InternalFixedUpdate);
+            Static.offQuit(InternalOnApplicationQuit);
 
         }
 
