@@ -1,7 +1,0 @@
-var searchData=
-[
-  ['z_0',['z',['../struct_nebukam_1_1_byte_trio.html#a574e7dc3feb8ed2cbc927cb1a295192d',1,'Nebukam.ByteTrio.z()'],['../struct_nebukam_1_1_int_trio.html#ad0d803896064c187986885d07819b037',1,'Nebukam.IntTrio.z()'],['../struct_nebukam_1_1_u_byte_trio.html#a98ebda2db414e7c3b9cf8cbf40b2f15e',1,'Nebukam.UByteTrio.z()'],['../struct_nebukam_1_1_u_int_trio.html#a1c0849c645b37a2f0311cf689e85cc97',1,'Nebukam.UIntTrio.z()']]],
-  ['zero_1',['zero',['../struct_nebukam_1_1_byte_pair.html#a7785891393e1806672d60855de5f4745',1,'Nebukam.BytePair.zero()'],['../struct_nebukam_1_1_byte_trio.html#a56c26cd7111b7e221afd0ced8e92febc',1,'Nebukam.ByteTrio.zero()'],['../struct_nebukam_1_1_int_pair.html#abac7ded65a15f9184348954b63c28779',1,'Nebukam.IntPair.zero()'],['../struct_nebukam_1_1_int_trio.html#a349982a9a3aa4433c09cfa6463c1598e',1,'Nebukam.IntTrio.zero()'],['../struct_nebukam_1_1_u_byte_pair.html#a676ce6c2434311c14704e506c681ee85',1,'Nebukam.UBytePair.zero()'],['../struct_nebukam_1_1_u_byte_trio.html#a747b4806cc7c288341430af7f9fa6cf3',1,'Nebukam.UByteTrio.zero()'],['../struct_nebukam_1_1_u_int_pair.html#a4188ad3364deacad292a1a4bd7adb5a4',1,'Nebukam.UIntPair.zero()'],['../struct_nebukam_1_1_u_int_trio.html#aa0995cd2eaa5ea8f5f9843fedb2b04ff',1,'Nebukam.UIntTrio.zero()']]],
-  ['zxy_2',['ZXY',['../namespace_nebukam.html#a6cda33210d0b9a6219d856c7f9891b82a07bb28478030fc8b86da84000c9860d3',1,'Nebukam']]],
-  ['zyx_3',['ZYX',['../namespace_nebukam.html#a6cda33210d0b9a6219d856c7f9891b82a6811254e01b3550bdb2dc46f204730dc',1,'Nebukam']]]
-];
