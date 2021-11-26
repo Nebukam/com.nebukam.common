@@ -44,6 +44,7 @@ namespace Nebukam.Pooling
 
         private Type __m_type;
 
+
         [SerializeField][HideInInspector]
         internal GameObject m_instanceOf = null;
 
