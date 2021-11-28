@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
-using static Nebukam.Editor.EditorExtensions;
+using static Nebukam.Editor.EditorDrawer;
 
 namespace Nebukam.Editor
 {

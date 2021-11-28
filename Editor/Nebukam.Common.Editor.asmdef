@@ -1,6 +1,7 @@
 {
     "name": "Nebukam.Common.Editor",
     "references": [
+        "Nebukam.Editor",
         "Unity.Mathematics",
         "Unity.Collections",
         "Unity.Burst"

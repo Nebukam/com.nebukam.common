@@ -19,5 +19,9 @@
     "com.unity.collections": "0.9.0-preview.6",
     "com.unity.mathematics": "1.2.1",
     "com.unity.burst": "1.4.3"
+  },
+  "gitDependencies": {
+	"com.nebukam.editor": "https://github.com/Nebukam/com.nebukam.editor.git#0.0.1"
   }
+  
 }
