@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2019 Timothé Lapetite - nebukam@gmail.com
+﻿// Copyright (c) 2021 Timothé Lapetite - nebukam@gmail.com
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -19,9 +19,7 @@
 // SOFTWARE.
 
 using System;
-#if UNITY_EDITOR
 using System.Linq;
-#endif
 using System.Collections.Generic;
 using UnityEngine;
 
