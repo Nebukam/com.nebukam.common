@@ -23,7 +23,7 @@ using UnityEngine;
 using UnityEditor;
 using System;
 
-namespace Nebukam.Pooling
+namespace Nebukam
 {
 
     public interface IPoolablePrefabItem : IPoolItem

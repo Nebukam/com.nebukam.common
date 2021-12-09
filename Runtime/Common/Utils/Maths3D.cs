@@ -67,7 +67,8 @@ using System;
 
 */
 
-namespace Nebukam.Utils { 
+namespace Nebukam.Common
+{ 
 
     public class Maths3d
     {

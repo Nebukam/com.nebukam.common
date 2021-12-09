@@ -6,7 +6,7 @@ using static Unity.Mathematics.math;
 using Unity.Collections;
 using Unity.Burst;
 
-namespace Nebukam.Utils
+namespace Nebukam.Common
 {
     static public class NRandom
     {

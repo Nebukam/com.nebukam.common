@@ -18,56 +18,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Unity.Mathematics;
-using static Unity.Mathematics.math;
 
-namespace Nebukam
+namespace Nebukam.Common
 {
 
-    public interface IVertex : Pooling.IPoolItem
+    public interface IPlanar
     {
-        float3 pos { get; set; }
-        float2 XY { get; }
-        float2 XZ { get; }
-        float2 Pair(AxisPair pair);
+        AxisPair plane { get; set; }
     }
 
-    public class Vertex : Pooling.PoolItem, IVertex
+    public enum AxisPair
     {
-
-        protected internal float3 m_pos = float3(0f);
-
-        public float3 pos
-        {
-            get { return m_pos; }
-            set { m_pos = value; }
-        }
-        public float2 XY { get { return float2(m_pos.x, m_pos.y); } }
-        public float2 XZ { get { return float2(m_pos.x, m_pos.z); } }
-
-        public float2 Pair(AxisPair pair)
-        {
-            return pair == AxisPair.XY ? XY : XZ;
-        }
-
-        public Vertex()
-        {
-
-        }
-
-        public Vertex(float3 v3)
-        {
-            pos = v3;
-        }
-
-        public Vertex(float x, float y, float z = 0f)
-        {
-            pos = float3(x, y, z);
-        }
-
-        public static implicit operator float3(Vertex p) { return p.m_pos; }
-
+        XY = 0,
+        XZ = 1
     }
-
 
 }

@@ -1,5 +1,4 @@
-﻿using Nebukam.Utils;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Nebukam
 {
@@ -41,7 +40,7 @@ namespace Nebukam
         /// <returns></returns>
         public static T RandomPick<T>(this IList<T> @this)
         {
-            return Lists.RandomPick(@this);
+            return Nebukam.Collections.Lists.RandomPick(@this);
         }
 
         /// <summary>
@@ -52,7 +51,7 @@ namespace Nebukam
         /// <returns></returns>
         public static T RandomExtract<T>(this IList<T> @this)
         {
-            return Lists.RandomExtract(@this);
+            return Nebukam.Collections.Lists.RandomExtract(@this);
         }
 
         /// <summary>
@@ -62,7 +61,7 @@ namespace Nebukam
         /// <param name="this"></param>
         public static void Randomize<T>(this IList<T> @this)
         {
-            Lists.Randomize(@this);
+            Nebukam.Collections.Lists.Randomize(@this);
         }
 
         /// <summary>

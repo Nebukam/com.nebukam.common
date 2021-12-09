@@ -24,7 +24,7 @@ using System.Linq;
 #endif
 using System.Collections.Generic;
 
-namespace Nebukam.Pooling
+namespace Nebukam
 {
 
     public static class Pool

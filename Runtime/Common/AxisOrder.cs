@@ -19,18 +19,22 @@
 // SOFTWARE.
 
 
-namespace Nebukam
+namespace Nebukam.Common
 {
 
-    public interface IPlanar
+    public interface IPlanarOrder
     {
-        AxisPair plane { get; set; }
+        AxisOrder planeOrder { get; set; }
     }
 
-    public enum AxisPair
+    public enum AxisOrder
     {
-        XY = 0,
-        XZ = 1
+        XYZ = 0,
+        XZY = 1,
+        YXZ = 2,
+        YZX = 4,
+        ZXY = 8,
+        ZYX = 16
     }
 
 }

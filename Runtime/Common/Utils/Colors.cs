@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Nebukam.Utils
+namespace Nebukam.Common
 {
     static public class Colors
     {

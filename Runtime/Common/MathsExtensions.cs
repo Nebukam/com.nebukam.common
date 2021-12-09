@@ -1,9 +1,8 @@
-﻿using Nebukam.Utils;
-using Unity.Mathematics;
+﻿using Unity.Mathematics;
 using UnityEngine;
 using static Unity.Mathematics.math;
 
-namespace Nebukam
+namespace Nebukam.Common
 {
     public static class MathsExtensions
     {

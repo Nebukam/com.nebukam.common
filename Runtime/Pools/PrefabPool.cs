@@ -23,7 +23,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Nebukam.Pooling
+namespace Nebukam
 {
 
     public static class Prefabs

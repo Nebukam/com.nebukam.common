@@ -8,7 +8,7 @@ using UnityEditor;
 using UnityEngine;
 using static Nebukam.Editor.EditorDrawer;
 
-namespace Nebukam.Editor
+namespace Nebukam.Common.Editor
 {
     public class ScreenshotAndCaptureWindow : EditorWindow
     {

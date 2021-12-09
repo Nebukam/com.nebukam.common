@@ -1,9 +1,10 @@
-﻿using System;
+﻿#if UNITY_EDITOR
+using System;
 using Unity.Mathematics;
 using UnityEngine;
 using static Unity.Mathematics.math;
 
-namespace Nebukam.Utils
+namespace Nebukam.Common.Editor
 {
     static public class Draw
     {
@@ -190,3 +191,4 @@ namespace Nebukam.Utils
 
     }
 }
+#endif

@@ -4,7 +4,7 @@ using Unity.Mathematics;
 using UnityEngine;
 using static Unity.Mathematics.math;
 
-namespace Nebukam.Utils
+namespace Nebukam.Common
 {
     static public class Maths
     {

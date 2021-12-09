@@ -18,12 +18,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Nebukam.Pooling;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using static Unity.Mathematics.math;
 
-namespace Nebukam
+namespace Nebukam.Common
 {
 
     public interface IVertexGroup<out V>
@@ -84,11 +83,11 @@ namespace Nebukam
         
     }
 
-    public class VertexGroup<V> : Pooling.PoolItem, IEditableVertexGroup<V>
+    public class VertexGroup<V> : PoolItem, IEditableVertexGroup<V>
         where V : Vertex, IVertex, new()
     {
 
-        protected Pooling.Pool.OnItemReleased m_onVertexReleasedCached;
+        protected Pool.OnItemReleased m_onVertexReleasedCached;
 
         protected bool m_locked = false;
         public bool locked { get { return m_locked; } }
@@ -115,7 +114,7 @@ namespace Nebukam
         /// <returns></returns>
         public virtual V Add()
         {
-            return Add(Pooling.Pool.Rent<V>() as IVertex);
+            return Add(Pool.Rent<V>() as IVertex);
         }
 
         /// <summary>
@@ -143,7 +142,7 @@ namespace Nebukam
         /// <returns></returns>
         public virtual V Add(float3 v)
         {
-            V vert = Pooling.Pool.Rent<V>();
+            V vert = Pool.Rent<V>();
             vert.pos = v;
             return Add(vert as IVertex);
         }
@@ -194,7 +193,7 @@ namespace Nebukam
         /// <returns></returns>
         public virtual V Insert(int index, float3 v)
         {
-            V vert = Pooling.Pool.Rent<V>();
+            V vert = Pool.Rent<V>();
             vert.pos = v;
 
             m_vertices.Insert(index, vert);

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Nebukam.Utils
+namespace Nebukam.Collections
 {
     static public class Lists
     {
@@ -22,7 +22,7 @@ namespace Nebukam.Utils
 
             for (int i = 0; i < parts; i++)
             {
-                int part = (i == parts - 1) ? amount : (int)Maths.Rand(amount, false);
+                int part = (i == parts - 1) ? amount : (int)Nebukam.Common.Maths.Rand(amount, false);
                 result[i] = part;
                 amount = amount - part;
             }
@@ -122,7 +122,7 @@ namespace Nebukam.Utils
             if (range == 0)
                 return default(T);
 
-            return list[(int)Maths.Rand(range, false)];
+            return list[(int)Nebukam.Common.Maths.Rand(range, false)];
         }
 
         /// <summary>
@@ -138,7 +138,7 @@ namespace Nebukam.Utils
             if (range == 0)
                 return default(T);
 
-            int index = (int)Maths.Rand(range, false);
+            int index = (int)Nebukam.Common.Maths.Rand(range, false);
 
             T result = list[index];
             list.RemoveAt(index);

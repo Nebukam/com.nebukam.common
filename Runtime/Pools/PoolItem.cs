@@ -20,7 +20,7 @@
 
 using System.Collections.Generic;
 
-namespace Nebukam.Pooling
+namespace Nebukam
 {
 
     public interface IPoolItem

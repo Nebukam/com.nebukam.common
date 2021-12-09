@@ -22,7 +22,7 @@ using System.Collections.Generic;
 
 namespace Nebukam.Collections
 {
-    public class ListDictionary<TKey, TValue> : Pooling.PoolItem, Pooling.IRequireCleanUp
+    public class ListDictionary<TKey, TValue> : PoolItem, IRequireCleanUp
     {
 
         protected List<TKey> m_keyList = new List<TKey>();

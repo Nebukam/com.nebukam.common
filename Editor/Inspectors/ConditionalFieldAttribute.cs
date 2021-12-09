@@ -1,12 +1,11 @@
-﻿using System;
+﻿#if UNITY_EDITOR
+
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-
-#if UNITY_EDITOR
 using UnityEditor;
-#endif
 
-namespace Nebukam
+namespace Nebukam.Common.Editor
 {
     [AttributeUsage(AttributeTargets.Field)]
     public class ConditionalFieldAttribute : PropertyAttribute
@@ -22,7 +21,6 @@ namespace Nebukam
             _inverse = inverse;
         }
 
-#if UNITY_EDITOR
         public bool CheckBehaviourPropertyVisible(MonoBehaviour behaviour, string propertyName)
         {
             if (string.IsNullOrEmpty(_fieldToCheck)) return true;
@@ -138,12 +136,8 @@ namespace Nebukam
         //This pool is used to prevent spamming with warning messages
         //One message per property
         readonly HashSet<object> _warningsPool = new HashSet<object>();
-#endif
     }
-}
-#if UNITY_EDITOR
-namespace Nebukam.Utils.Internal
-{
+
     [CustomPropertyDrawer(typeof(ConditionalFieldAttribute))]
     public class ConditionalFieldAttributeDrawer : PropertyDrawer
     {
