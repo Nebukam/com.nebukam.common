@@ -393,9 +393,10 @@ namespace Nebukam
             if (list == null)
                 return;
 
-            int index = list.IndexOf(returnDelegate);
-            if (index != -1)
-                list.RemoveAt(index);
+            if (list.TryRemove(returnDelegate))
+            {
+
+            }
 
             return;
 

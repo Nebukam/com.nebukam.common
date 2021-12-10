@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace Nebukam
 {
@@ -12,6 +13,7 @@ namespace Nebukam
         /// <typeparam name="T"></typeparam>
         /// <param name="this"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T Last<T>(this IList<T> @this)
         {
             int index = @this.Count - 1;
@@ -26,6 +28,7 @@ namespace Nebukam
         /// <typeparam name="T"></typeparam>
         /// <param name="this"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T First<T>(this IList<T> @this)
         {
             if (@this.Count == 0) { return default(T); }
@@ -38,6 +41,7 @@ namespace Nebukam
         /// <typeparam name="T"></typeparam>
         /// <param name="this"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T RandomPick<T>(this IList<T> @this)
         {
             return Nebukam.Collections.Lists.RandomPick(@this);
@@ -49,6 +53,7 @@ namespace Nebukam
         /// <typeparam name="T"></typeparam>
         /// <param name="this"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T RandomExtract<T>(this IList<T> @this)
         {
             return Nebukam.Collections.Lists.RandomExtract(@this);
@@ -59,6 +64,7 @@ namespace Nebukam
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="this"></param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Randomize<T>(this IList<T> @this)
         {
             Nebukam.Collections.Lists.Randomize(@this);
@@ -70,6 +76,7 @@ namespace Nebukam
         /// <typeparam name="T"></typeparam>
         /// <param name="this"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T Pop<T>(this IList<T> @this)
         {
             int index = @this.Count - 1;
@@ -86,6 +93,7 @@ namespace Nebukam
         /// <typeparam name="T"></typeparam>
         /// <param name="this"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T Shift<T>(this IList<T> @this)
         {
 
@@ -103,9 +111,10 @@ namespace Nebukam
         /// <param name="this"></param>
         /// <param name="item"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T AddOnce<T>(this IList<T> @this, T item)
         {
-            if (@this.Contains(item)) { return item; }
+            if (@this.IndexOf(item) != -1) { return item; }
             @this.Add(item);
             return item;
         }
@@ -117,19 +126,81 @@ namespace Nebukam
         /// <typeparam name="T"></typeparam>
         /// <param name="this"></param>
         /// <param name="item"></param>
-        /// <param name="alreadyPresent"></param>
+        /// <param name="added"></param>
         /// <returns></returns>
-        public static T AddOnce<T>(this IList<T> @this, T item, out bool alreadyPresent)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T AddOnce<T>(this IList<T> @this, T item, out bool added)
         {
-            if (@this.Contains(item))
+            if (@this.IndexOf(item) != -1)
             {
-                alreadyPresent = true;
+                added = false;
                 return item;
             }
 
-            alreadyPresent = false;
+            added = true;
             @this.Add(item);
             return item;
+        }
+
+        /// <summary>
+        /// Only add an item if it isn't already in the list, with a boolean
+        /// returning whether or not the iteam was already in the list.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="this"></param>
+        /// <param name="item"></param>
+        /// <param name="added"></param>
+        /// <returns>True if the item has been added, false if the item was already present in the collection</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool TryAddOnce<T>(this IList<T> @this, T item)
+        {
+            if (@this.IndexOf(item) != -1)
+                return false;
+
+            @this.Add(item);
+            return true;
+        }
+
+        /// <summary>
+        /// Removes an item from a list
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="this"></param>
+        /// <param name="item"></param>
+        /// <param name="removed"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T Remove<T>(this IList<T> @this, T item, out bool removed)
+        {
+            int index = @this.IndexOf(item);
+            if (index == -1)
+            {
+                removed = false;
+                return item;
+            }
+
+            removed = true;
+            @this.RemoveAt(index);
+            return item;
+        }
+
+        /// <summary>
+        /// Removes an item from a list
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="this"></param>
+        /// <param name="item"></param>
+        /// <returns>True if the item has been removed, false if it wasn't in the collection.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool TryRemove<T>(this IList<T> @this, T item)
+        {
+            int index = @this.IndexOf(item);
+
+            if (index == -1)
+                return false;
+
+            @this.RemoveAt(index);
+            return true;
         }
 
         /// <summary>
@@ -138,6 +209,7 @@ namespace Nebukam
         /// <typeparam name="T"></typeparam>
         /// <param name="this"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsEmpty<T>(this IList<T> @this)
         {
             return !(@this.Count != 0);

@@ -23,6 +23,7 @@ using System;
 using System.Linq;
 #endif
 using System.Collections.Generic;
+using Nebukam.Common;
 
 namespace Nebukam
 {
@@ -179,9 +180,10 @@ namespace Nebukam
             if (list == null)
                 return;
 
-            int index = list.IndexOf(returnDelegate);
-            if (index != -1)
-                list.RemoveAt(index);
+            if (list.TryRemove(returnDelegate))
+            {
+
+            }
 
             return;
 

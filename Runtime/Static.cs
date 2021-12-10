@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using Nebukam.Common;
 
 namespace Nebukam
 {
@@ -39,11 +40,11 @@ namespace Nebukam
         public static void onQuit(Callback func) { if (quitting) { return; } ON(func, m_OnQuit); }
         public static void offQuit(Callback func) { if (quitting) { return; } OFF(func, m_OnQuit); }
 
-        private static void ON(Callback func, List<Callback> list) { if (!list.Contains(func)) { list.Add(func); } }
-        private static void OFF(Callback func, List<Callback> list) { int i = list.IndexOf(func); if (i != -1) { list.RemoveAt(i); } }
+        private static void ON(Callback func, List<Callback> list) { list.TryAddOnce(func); }
+        private static void OFF(Callback func, List<Callback> list) { list.TryRemove(func); }
 
-        private static void ON(CallbackUpdate func, List<CallbackUpdate> list) { if (!list.Contains(func)) { list.Add(func); } }
-        private static void OFF(CallbackUpdate func, List<CallbackUpdate> list) { int i = list.IndexOf(func); if (i != -1) { list.RemoveAt(i); } }
+        private static void ON(CallbackUpdate func, List<CallbackUpdate> list) { list.TryAddOnce(func); }
+        private static void OFF(CallbackUpdate func, List<CallbackUpdate> list) { list.TryRemove(func); }
 
         private void Update() { Call(m_OnUpdate, Time.deltaTime); }
         private void LateUpdate() { Call(m_OnLateUpdate, Time.deltaTime); }

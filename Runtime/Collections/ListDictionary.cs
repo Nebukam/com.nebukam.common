@@ -19,6 +19,7 @@
 // SOFTWARE.
 
 using System.Collections.Generic;
+using Nebukam.Collections;
 
 namespace Nebukam.Collections
 {
@@ -31,6 +32,8 @@ namespace Nebukam.Collections
         public int KeyCount { get { return m_dictionary.Count; } }
         public List<TKey> keyList { get { return m_keyList; } }
         public List<TValue> this[TKey key] { get { return m_dictionary[key]; } }
+
+        public List<List<TValue>> m_valueListPool;
 
         public int ValueCount(TKey key)
         {
@@ -57,8 +60,8 @@ namespace Nebukam.Collections
 
         public bool Contains(TKey key, TValue value)
         {
-            if(m_dictionary.TryGetValue(key, out List<TValue> values))
-                if (values.Contains(value))
+            if (m_dictionary.TryGetValue(key, out List<TValue> values))
+                if (values.IndexOf(value) != -1)
                     return true;
 
             return false;
@@ -70,19 +73,45 @@ namespace Nebukam.Collections
             if (m_dictionary.TryGetValue(key, out List<TValue> entries))
                 entries.AddOnce(value);
             else
-                m_dictionary[key] = new List<TValue>() { value };
+                m_dictionary[key] = RentValueList(value);
 
             return value;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <returns>True if the value has been added, false if it was already present</returns>
+        public bool TryAdd(TKey key, TValue value)
+        {
+
+            if (m_dictionary.TryGetValue(key, out List<TValue> entries))
+                return entries.TryAddOnce(value);
+            
+            m_dictionary[key] = RentValueList(value);
+
+            return true;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <returns>True if the value has been removed, false if it was not present</returns>
         public bool Remove(TKey key, TValue value)
         {
             if (m_dictionary.TryGetValue(key, out List<TValue> entries))
             {
-                if (entries.Remove(value))
+                if (entries.TryRemove(value))
                 {
                     if (entries.Count == 0)
+                    {
                         m_dictionary.Remove(key);
+                        ReturnValueList(entries);
+                    }
 
                     return true;
                 }
@@ -91,6 +120,11 @@ namespace Nebukam.Collections
             return false;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns>True if the key list has been removed, false if it was not present</returns>
         public bool Remove(TKey key)
         {
             if (m_dictionary.TryGetValue(key, out List<TValue> entries))
@@ -109,7 +143,11 @@ namespace Nebukam.Collections
         {
             int count = m_keyList.Count;
             for (int i = 0; i < count; i++)
-                m_dictionary[m_keyList[i]].Clear();
+            {
+                List<TValue> list = m_dictionary[m_keyList[i]];
+                list.Clear();
+                ReturnValueList(list);
+            }
 
             m_keyList.Clear();
             m_dictionary.Clear();
@@ -119,6 +157,28 @@ namespace Nebukam.Collections
         {
             Clear();
         }
+
+        #region internal list pool
+
+        private List<TValue> RentValueList(TValue firstValue)
+        {
+            if (m_valueListPool == null || m_valueListPool.Count == 0)
+                return new List<TValue>(10) { firstValue };
+
+            List<TValue> list = m_valueListPool.Pop();
+            list.Add(firstValue);
+            return list;
+        }
+
+        private void ReturnValueList(List<TValue> list)
+        {
+            if (m_valueListPool == null)
+                m_valueListPool = new List<List<TValue>>(10);
+
+            m_valueListPool.AddOnce(list);
+        }
+
+        #endregion
 
     }
 }
