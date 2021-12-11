@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace Nebukam
 {
-    public static class ListsExtensions
+    public static class CollectionExtensions
     {
 
 
@@ -162,6 +162,25 @@ namespace Nebukam
         }
 
         /// <summary>
+        /// Only add an item if it isn't already in the list, with a boolean
+        /// returning whether or not the iteam was already in the list.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="this"></param>
+        /// <param name="item"></param>
+        /// <param name="added"></param>
+        /// <returns>True if the item has been added, false if the item was already present in the collection</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool TryAddOnce<T>(this HashSet<T> @this, T item)
+        {
+            if (@this.Contains(item))
+                return false;
+
+            @this.Add(item);
+            return true;
+        }
+
+        /// <summary>
         /// Removes an item from a list
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -200,6 +219,23 @@ namespace Nebukam
                 return false;
 
             @this.RemoveAt(index);
+            return true;
+        }
+
+        /// <summary>
+        /// Removes an item from a list
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="this"></param>
+        /// <param name="item"></param>
+        /// <returns>True if the item has been removed, false if it wasn't in the collection.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool TryRemove<T>(this HashSet<T> @this, T item)
+        {
+            if (!@this.Contains(item))
+                return false;
+
+            @this.Remove(item);
             return true;
         }
 

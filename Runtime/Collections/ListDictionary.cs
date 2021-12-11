@@ -26,14 +26,12 @@ namespace Nebukam.Collections
     public class ListDictionary<TKey, TValue> : PoolItem, IRequireCleanUp
     {
 
-        protected List<TKey> m_keyList = new List<TKey>();
-        protected Dictionary<TKey, List<TValue>> m_dictionary = new Dictionary<TKey, List<TValue>>();
+        protected List<TKey> m_keyList = new List<TKey>(10);
+        protected Dictionary<TKey, List<TValue>> m_dictionary = new Dictionary<TKey, List<TValue>>(10);
         
         public int KeyCount { get { return m_dictionary.Count; } }
         public List<TKey> keyList { get { return m_keyList; } }
         public List<TValue> this[TKey key] { get { return m_dictionary[key]; } }
-
-        public List<List<TValue>> m_valueListPool;
 
         public int ValueCount(TKey key)
         {
@@ -69,11 +67,15 @@ namespace Nebukam.Collections
 
         public TValue Add(TKey key, TValue value)
         {
-
-            if (m_dictionary.TryGetValue(key, out List<TValue> entries))
-                entries.AddOnce(value);
-            else
+            if (!m_dictionary.ContainsKey(key)) 
+            { 
+                m_keyList.AddOnce(key);
                 m_dictionary[key] = RentValueList(value);
+            }
+            else
+            {
+                m_dictionary[key].AddOnce(value);
+            }
 
             return value;
         }
@@ -87,10 +89,15 @@ namespace Nebukam.Collections
         public bool TryAdd(TKey key, TValue value)
         {
 
-            if (m_dictionary.TryGetValue(key, out List<TValue> entries))
-                return entries.TryAddOnce(value);
-            
-            m_dictionary[key] = RentValueList(value);
+            if (!m_dictionary.ContainsKey(key))
+            {
+                m_keyList.AddOnce(key);
+                m_dictionary[key] = RentValueList(value);
+            }
+            else
+            {
+                return m_dictionary[key].TryAddOnce(value);
+            }
 
             return true;
         }
@@ -109,8 +116,9 @@ namespace Nebukam.Collections
                 {
                     if (entries.Count == 0)
                     {
-                        m_dictionary.Remove(key);
                         ReturnValueList(entries);
+                        m_dictionary.Remove(key);
+                        m_keyList.Remove(key);
                     }
 
                     return true;
@@ -130,7 +138,9 @@ namespace Nebukam.Collections
             if (m_dictionary.TryGetValue(key, out List<TValue> entries))
             {
                 entries.Clear();
+                ReturnValueList(entries);
                 m_dictionary.Remove(key);
+                m_keyList.Remove(key);
                 return true;
             }
             else
@@ -160,7 +170,9 @@ namespace Nebukam.Collections
 
         #region internal list pool
 
-        private List<TValue> RentValueList(TValue firstValue)
+        internal static List<List<TValue>> m_valueListPool = null;
+
+        private static List<TValue> RentValueList(TValue firstValue)
         {
             if (m_valueListPool == null || m_valueListPool.Count == 0)
                 return new List<TValue>(10) { firstValue };
@@ -170,7 +182,7 @@ namespace Nebukam.Collections
             return list;
         }
 
-        private void ReturnValueList(List<TValue> list)
+        private static void ReturnValueList(List<TValue> list)
         {
             if (m_valueListPool == null)
                 m_valueListPool = new List<List<TValue>>(10);
