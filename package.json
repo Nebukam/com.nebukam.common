@@ -1,6 +1,6 @@
 {
   "name": "com.nebukam.common",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "displayName": "N:Common",
   "description": "A set of commonly used resources & object in N:Libraries. This package primary purpose is to allow some package to have dependencies over basic types, without the need to for big libs & packages.",
   "unity": "2019.4",
@@ -19,9 +19,6 @@
     "com.unity.collections": "0.9.0-preview.6",
     "com.unity.mathematics": "1.2.1",
     "com.unity.burst": "1.4.3"
-  },
-  "gitDependencies": {
-	"com.nebukam.editor": "https://github.com/Nebukam/com.nebukam.editor.git#0.0.1"
   }
   
 }
