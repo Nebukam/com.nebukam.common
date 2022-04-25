@@ -20,6 +20,7 @@
 
 
 using System;
+
 using System.Reflection;
 
 namespace Nebukam
@@ -76,10 +77,11 @@ namespace Nebukam
             Init();
 
             Type t = GetType();
-            if (IsOverride(t.GetMethod("Update"))) { Static.onUpdate(InternalUpdate); }
-            if (IsOverride(t.GetMethod("LateUpdate"))) { Static.onLateUpdate(InternalLateUpdate); }
-            if (IsOverride(t.GetMethod("FixedUpdate"))) { Static.onFixedUpdate(InternalFixedUpdate); }
-            if (IsOverride(t.GetMethod("OnApplicationQuit"))) { Static.onQuit(InternalOnApplicationQuit); }
+            BindingFlags f = BindingFlags.Instance | BindingFlags.NonPublic;
+            if (IsOverride(t.GetMethod("Update", f))) { Static.onUpdate(InternalUpdate); }
+            if (IsOverride(t.GetMethod("LateUpdate", f))) { Static.onLateUpdate(InternalLateUpdate); }
+            if (IsOverride(t.GetMethod("FixedUpdate", f))) { Static.onFixedUpdate(InternalFixedUpdate); }
+            if (IsOverride(t.GetMethod("OnApplicationQuit", f))) { Static.onQuit(InternalOnApplicationQuit); }
 
             m_init = true;
         }
