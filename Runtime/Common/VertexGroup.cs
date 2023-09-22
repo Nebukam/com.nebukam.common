@@ -161,28 +161,31 @@ namespace Nebukam.Common
 #if UNITY_EDITOR
             if (!(v is V)) { throw new System.Exception("Insert(float, IVertex) : parameter T (" + v.GetType().Name + ") does not implement " + typeof(V).Name + "."); }
 #endif
+            V vert = v as V;
 
-            V vert = Add(v);
+            int currentIndex = m_vertices.IndexOf(v);
+            if(currentIndex == index) { return vert; }
 
-            if (vert == null)
-                return null;
-
-            int currentIndex = m_vertices.IndexOf(vert);
-            if (currentIndex == index) { return vert; }
             if (currentIndex != -1)
             {
+
                 m_vertices.RemoveAt(currentIndex);
+
                 if (currentIndex < index)
                     m_vertices.Insert(index - 1, vert);
                 else
                     m_vertices.Insert(index, vert);
+                
             }
             else
             {
+                //Add vertex
                 m_vertices.Insert(index, vert);
-                OnVertexAdded(vert);
+                OnVertexAdded(vert);                
             }
+
             return vert;
+
         }
 
         /// <summary>
